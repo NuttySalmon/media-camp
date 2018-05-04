@@ -10,8 +10,13 @@ function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-//INDEX - show all entries
+//
 router.get("/", function(req, res){
+  res.redirect("/entries/search");
+});
+
+//INDEX - show all entries
+router.get("/search", function(req, res){
   if(req.query.search && req.xhr) {
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
       // Get all entries from DB
@@ -39,7 +44,7 @@ router.get("/", function(req, res){
 });
 
 //CREATE - add new entry to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/search", middleware.isLoggedIn, function(req, res){
   // get data from form and add to entries array
   var name = req.body.name;
   var image = req.body.image;
@@ -48,22 +53,23 @@ router.post("/", middleware.isLoggedIn, function(req, res){
       id: req.user._id,
       username: req.user.username
   }
-  var cost = req.body.cost;
-  geocoder.geocode(req.body.location, function (err, data) {
-    var lat = data.results[0].geometry.location.lat;
-    var lng = data.results[0].geometry.location.lng;
-    var location = data.results[0].formatted_address;
-    var newEntry = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
-    // Create a new entry and save to DB
-    Entry.create(newEntry, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        } else {
-            //redirect back to entries page
-            console.log(newlyCreated);
-            res.redirect("/entries");
-        }
-    });
+
+  var newEntry = {
+    name: name, 
+    image: image, 
+    description: desc, 
+    author:author
+  };
+  // Create a new entry and save to DB
+  Entry.create(newEntry, function(err, newlyCreated){
+      if(err){
+          console.log(err);
+      } else {
+          //redirect back to entries page
+          console.log(newlyCreated);
+          res.redirect("/entries/search");
+      }
+
   });
 });
 
@@ -99,11 +105,13 @@ router.get("/:id/edit", middleware.checkUserEntry, function(req, res){
 });
 
 router.put("/:id", function(req, res){
-  geocoder.geocode(req.body.location, function (err, data) {
-    var lat = data.results[0].geometry.location.lat;
-    var lng = data.results[0].geometry.location.lng;
-    var location = data.results[0].formatted_address;
-    var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
+   
+    var newData = {
+      name: req.body.name, 
+      image: req.body.image, 
+      description: req.body.description, 
+    };
+
     Entry.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, entry){
         if(err){
             req.flash("error", err.message);
@@ -112,7 +120,6 @@ router.put("/:id", function(req, res){
             req.flash("success","Successfully Updated!");
             res.redirect("/entries/" + entry._id);
         }
-    });
   });
 });
 
@@ -124,7 +131,7 @@ router.delete("/:id", function(req, res) {
       }
     }, function(err, comments) {
       req.flash('error', entry.name + ' deleted!');
-      res.redirect('/entries');
+      res.redirect('/entries/search');
     })
   });
 });

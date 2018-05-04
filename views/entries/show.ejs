@@ -2,16 +2,13 @@
 <div class="row">
   <div class="col-md-3">
     <p class="lead">MediaAddict</p>
-    <div class="list-group">
-      <li class="list-group-item active">Info 1</li>
-      <li class="list-group-item">Info 2</li>
-      <li class="list-group-item">Info 3</li>
-    </div>
-    <div id="map"></div>
+       <div id="map"></div>
   </div>
   <div class="col-md-9">
     <div class="thumbnail">
-      <img class="img-responsive" src="<%= entry.image %>">
+      <% if (typeof entry.image !== 'undefined') {%>
+       <img class="img-responsive" src="<%= entry.image %>">
+      <% } %>
       <div class="caption-full">
         <h4 class="pull-right">
           $<%= entry.cost %>/night
