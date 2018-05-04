@@ -12,10 +12,10 @@
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
 	</div>
 	<div class="col-md-8">
-		<h3><%= user.username %>'s titles:</h3>
+		<h3><%= user.username %>'s entries:</h3>
 		<ul>
-		<% titles.forEach(function(title) { %>
-			<li><a href="/titles/<%= title.id %>"><%= title.name %></a></li>
+		<% entries.forEach(function(entry) { %>
+			<li><a href="/entries/<%= entry.id %>"><%= entry.name %></a></li>
 		<% }); %>
 		</ul>
 	</div>

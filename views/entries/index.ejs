@@ -3,30 +3,30 @@
      <header class="jumbotron">
          <div class="container">
              <h1><span class="glyphicon glyphicon-tent"></span> Welcome To MediaAddict!</h1>
-             <p>View our hand-picked titles from all over the world</p>
+             <p>View our hand-picked entries from all over the world</p>
              <p>
-                <a class="btn btn-primary btn-lg" href="/titles/new">Add New Title</a>
+                <a class="btn btn-primary btn-lg" href="/entries/new">Add New Entry</a>
              </p>
               <p>
-              <form action="/titles" method="GET" class="form-inline" id="title-search">
+              <form action="/entries" method="GET" class="form-inline" id="entry-search">
                 <div class="form-group">
-                  <input type="text" name="search" placeholder="Title search..." class="form-control">
+                  <input type="text" name="search" placeholder="Entry search..." class="form-control">
                 </div>
               </form>
              </p>
          </div>
      </header>
      
-     <div class="row text-center flex-wrap" id="title-grid">
-        <% titles.forEach(function(title){ %>
+     <div class="row text-center flex-wrap" id="entry-grid">
+        <% entries.forEach(function(entry){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                   <img src="<%= title.image %>">
+                   <img src="<%= entry.image %>">
                    <div class="caption">
-                       <h4><%= title.name %></h4>
+                       <h4><%= entry.name %></h4>
                    </div>
                    <p>
-                       <a href="/titles/<%= title._id %>" class="btn btn-primary">More Info</a>
+                       <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
                    </p>
                 </div>
             </div>

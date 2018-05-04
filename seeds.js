@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var Title = require("./models/title");
+var Entry = require("./models/entry");
 var Comment   = require("./models/comment");
 
 var data = [
@@ -21,19 +21,19 @@ var data = [
 ]
 
 function seedDB(){
-   //Remove all titles
-   Title.remove({}, function(err){
+   //Remove all entries
+   Entry.remove({}, function(err){
         if(err){
             console.log(err);
         }
-        console.log("removed titles!");
-         //add a few titles
+        console.log("removed entries!");
+         //add a few entries
         data.forEach(function(seed){
-            Title.create(seed, function(err, title){
+            Entry.create(seed, function(err, entry){
                 if(err){
                     console.log(err)
                 } else {
-                    console.log("added a title");
+                    console.log("added a entry");
                     //create a comment
                     Comment.create(
                         {
@@ -43,8 +43,8 @@ function seedDB(){
                             if(err){
                                 console.log(err);
                             } else {
-                                title.comments.push(comment);
-                                title.save();
+                                entry.comments.push(comment);
+                                entry.save();
                                 console.log("Created new comment");
                             }
                         });

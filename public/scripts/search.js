@@ -1,20 +1,20 @@
-$('#title-search').on('input', function() {
+$('#entry-search').on('input', function() {
   var search = $(this).serialize();
   if(search === "search=") {
     search = "all"
   }
-  $.get('/titles?' + search, function(data) {
-    $('#title-grid').html('');
-    data.forEach(function(title) {
-      $('#title-grid').append(`
+  $.get('/entries?' + search, function(data) {
+    $('#entry-grid').html('');
+    data.forEach(function(entry) {
+      $('#entry-grid').append(`
         <div class="col-md-3 col-sm-6">
           <div class="thumbnail">
-            <img src="${ title.image }">
+            <img src="${ entry.image }">
             <div class="caption">
-              <h4>${ title.name }</h4>
+              <h4>${ entry.name }</h4>
             </div>
             <p>
-              <a href="/titles/${ title._id }" class="btn btn-primary">More Info</a>
+              <a href="/entries/${ entry._id }" class="btn btn-primary">More Info</a>
             </p>
           </div>
         </div>
@@ -23,6 +23,6 @@ $('#title-search').on('input', function() {
   });
 });
 
-$('#title-search').submit(function(event) {
+$('#entry-search').submit(function(event) {
   event.preventDefault();
 });

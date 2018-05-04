@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var titleSchema = new mongoose.Schema({
+var entrySchema = new mongoose.Schema({
    name: String,
    image: String,
    description: String,
@@ -24,4 +24,4 @@ var titleSchema = new mongoose.Schema({
    ]
 });
 
-module.exports = mongoose.model("Title", titleSchema);
+module.exports = mongoose.model("Entry", entrySchema);

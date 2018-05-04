@@ -6,7 +6,7 @@ var express     = require("express"),
     cookieParser = require("cookie-parser"),
     LocalStrategy = require("passport-local"),
     flash        = require("connect-flash"),
-    Title  = require("./models/title"),
+    Entry  = require("./models/entry"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
     session = require("express-session"),
@@ -17,7 +17,7 @@ require('dotenv').load();
 
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
-    titleRoutes = require("./routes/titles"),
+    entryRoutes = require("./routes/entries"),
     indexRoutes      = require("./routes/index")
     
 mongoose.connect("mongodb://localhost/yelp_media_profiles");
@@ -53,8 +53,8 @@ app.use(function(req, res, next){
 
 
 app.use("/", indexRoutes);
-app.use("/titles", titleRoutes);
-app.use("/titles/:id/comments", commentRoutes);
+app.use("/entries", entryRoutes);
+app.use("/entries/:id/comments", commentRoutes);
 app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function() {

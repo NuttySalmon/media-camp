@@ -1,29 +1,29 @@
 var express = require("express");
 var router  = express.Router({mergeParams: true});
-var Title = require("../models/title");
+var Entry = require("../models/entry");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
 //Comments New
 router.get("/new", middleware.isLoggedIn, function(req, res){
-    // find title by id
+    // find entry by id
     console.log(req.params.id);
-    Title.findById(req.params.id, function(err, title){
+    Entry.findById(req.params.id, function(err, entry){
         if(err){
             console.log(err);
         } else {
-             res.render("comments/new", {title: title});
+             res.render("comments/new", {entry: entry});
         }
     })
 });
 
 //Comments Create
 router.post("/",middleware.isLoggedIn,function(req, res){
-   //lookup title using ID
-   Title.findById(req.params.id, function(err, title){
+   //lookup entry using ID
+   Entry.findById(req.params.id, function(err, entry){
        if(err){
            console.log(err);
-           res.redirect("/titles");
+           res.redirect("/entries");
        } else {
         Comment.create(req.body.comment, function(err, comment){
            if(err){
@@ -34,11 +34,11 @@ router.post("/",middleware.isLoggedIn,function(req, res){
                comment.author.username = req.user.username;
                //save comment
                comment.save();
-               title.comments.push(comment);
-               title.save();
+               entry.comments.push(comment);
+               entry.save();
                console.log(comment);
                req.flash('success', 'Created a comment!');
-               res.redirect('/titles/' + title._id);
+               res.redirect('/entries/' + entry._id);
            }
         });
        }
@@ -46,12 +46,12 @@ router.post("/",middleware.isLoggedIn,function(req, res){
 });
 
 router.get("/:commentId/edit", middleware.isLoggedIn, function(req, res){
-    // find title by id
+    // find entry by id
     Comment.findById(req.params.commentId, function(err, comment){
         if(err){
             console.log(err);
         } else {
-             res.render("comments/edit", {title_id: req.params.id, comment: comment});
+             res.render("comments/edit", {entry_id: req.params.id, comment: comment});
         }
     })
 });
@@ -62,7 +62,7 @@ router.put("/:commentId", function(req, res){
           console.log(err);
            res.render("edit");
        } else {
-           res.redirect("/titles/" + req.params.id);
+           res.redirect("/entries/" + req.params.id);
        }
    }); 
 });
@@ -72,7 +72,7 @@ router.delete("/:commentId",middleware.checkUserComment, function(req, res){
         if(err){
             console.log(err);
         } else {
-            Title.findByIdAndUpdate(req.params.id, {
+            Entry.findByIdAndUpdate(req.params.id, {
               $pull: {
                 comments: comment.id
               }
@@ -81,7 +81,7 @@ router.delete("/:commentId",middleware.checkUserComment, function(req, res){
                 console.log(err)
               } else {
                 req.flash('error', 'Comment deleted!');
-                res.redirect("/titles/" + req.params.id);
+                res.redirect("/entries/" + req.params.id);
               }
             });
         }

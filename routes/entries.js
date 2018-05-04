@@ -1,6 +1,6 @@
 var express = require("express");
 var router  = express.Router();
-var Title = require("../models/title");
+var Entry = require("../models/entry");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var geocoder = require('geocoder');
@@ -10,37 +10,37 @@ function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-//INDEX - show all titles
+//INDEX - show all entries
 router.get("/", function(req, res){
   if(req.query.search && req.xhr) {
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      // Get all titles from DB
-      Title.find({name: regex}, function(err, allTitles){
+      // Get all entries from DB
+      Entry.find({name: regex}, function(err, allEntries){
          if(err){
             console.log(err);
          } else {
-            res.status(200).json(allTitles);
+            res.status(200).json(allEntries);
          }
       });
   } else {
-      // Get all titles from DB
-      Title.find({}, function(err, allTitles){
+      // Get all entries from DB
+      Entry.find({}, function(err, allEntries){
          if(err){
              console.log(err);
          } else {
             if(req.xhr) {
-              res.json(allTitles);
+              res.json(allEntries);
             } else {
-              res.render("titles/index",{titles: allTitles, page: 'titles'});
+              res.render("entries/index",{entries: allEntries, page: 'entries'});
             }
          }
       });
   }
 });
 
-//CREATE - add new title to DB
+//CREATE - add new entry to DB
 router.post("/", middleware.isLoggedIn, function(req, res){
-  // get data from form and add to titles array
+  // get data from form and add to entries array
   var name = req.body.name;
   var image = req.body.image;
   var desc = req.body.description;
@@ -53,47 +53,47 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var lat = data.results[0].geometry.location.lat;
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
-    var newTitle = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
-    // Create a new title and save to DB
-    Title.create(newTitle, function(err, newlyCreated){
+    var newEntry = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
+    // Create a new entry and save to DB
+    Entry.create(newEntry, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
-            //redirect back to titles page
+            //redirect back to entries page
             console.log(newlyCreated);
-            res.redirect("/titles");
+            res.redirect("/entries");
         }
     });
   });
 });
 
-//NEW - show form to create new title
+//NEW - show form to create new entry
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("titles/new"); 
+   res.render("entries/new"); 
 });
 
-// SHOW - shows more info about one title
+// SHOW - shows more info about one entry
 router.get("/:id", function(req, res){
-    //find the title with provided ID
-    Title.findById(req.params.id).populate("comments").exec(function(err, foundTitle){
+    //find the entry with provided ID
+    Entry.findById(req.params.id).populate("comments").exec(function(err, foundEntry){
         if(err){
           console.log(err);
         } else {
-          console.log(foundTitle)
-          //render show template with that title
-          res.render("titles/show", {title: foundTitle});
+          console.log(foundEntry)
+          //render show template with that entry
+          res.render("entries/show", {entry: foundEntry});
         }
     });
 });
 
-router.get("/:id/edit", middleware.checkUserTitle, function(req, res){
-    //find the title with provided ID
-    Title.findById(req.params.id, function(err, foundTitle){
+router.get("/:id/edit", middleware.checkUserEntry, function(req, res){
+    //find the entry with provided ID
+    Entry.findById(req.params.id, function(err, foundEntry){
         if(err){
             console.log(err);
         } else {
-            //render show template with that title
-            res.render("titles/edit", {title: foundTitle});
+            //render show template with that entry
+            res.render("entries/edit", {entry: foundEntry});
         }
     });
 });
@@ -104,27 +104,27 @@ router.put("/:id", function(req, res){
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
     var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
-    Title.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, title){
+    Entry.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, entry){
         if(err){
             req.flash("error", err.message);
             res.redirect("back");
         } else {
             req.flash("success","Successfully Updated!");
-            res.redirect("/titles/" + title._id);
+            res.redirect("/entries/" + entry._id);
         }
     });
   });
 });
 
 router.delete("/:id", function(req, res) {
-  Title.findByIdAndRemove(req.params.id, function(err, title) {
+  Entry.findByIdAndRemove(req.params.id, function(err, entry) {
     Comment.remove({
       _id: {
-        $in: title.comments
+        $in: entry.comments
       }
     }, function(err, comments) {
-      req.flash('error', title.name + ' deleted!');
-      res.redirect('/titles');
+      req.flash('error', entry.name + ' deleted!');
+      res.redirect('/entries');
     })
   });
 });

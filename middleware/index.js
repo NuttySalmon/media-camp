@@ -1,5 +1,5 @@
 var Comment = require("../models/comment");
-var Title = require("../models/title");
+var Entry = require("../models/entry");
 module.exports = {
     isLoggedIn: function(req, res, next){
         if(req.isAuthenticated()){
@@ -8,15 +8,15 @@ module.exports = {
         req.flash("error", "You must be signed in to do that!");
         res.redirect("/login");
     },
-    checkUserTitle: function(req, res, next){
+    checkUserEntry: function(req, res, next){
         if(req.isAuthenticated()){
-            Title.findById(req.params.id, function(err, title){
-               if(title.author.id.equals(req.user._id) || req.user.isAdmin){
+            Entry.findById(req.params.id, function(err, entry){
+               if(entry.author.id.equals(req.user._id) || req.user.isAdmin){
                    next();
                } else {
                    req.flash("error", "You don't have permission to do that!");
                    console.log("BADD!!!");
-                   res.redirect("/titles/" + req.params.id);
+                   res.redirect("/entries/" + req.params.id);
                }
             });
         } else {
@@ -32,7 +32,7 @@ module.exports = {
                    next();
                } else {
                    req.flash("error", "You don't have permission to do that!");
-                   res.redirect("/titles/" + req.params.id);
+                   res.redirect("/entries/" + req.params.id);
                }
             });
         } else {
