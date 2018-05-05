@@ -45,22 +45,22 @@ h1 {
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(http://i.imgur.com/K3mPv14.jpg) 
+  background-image: url(http://hdqwalls.com/wallpapers/avengers-infinity-war-official-poster-2018-4o.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+  background-image: url(https://prodimage.images-bn.com/pimages/9780545162074_p0_v2_s550x406.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(http://i.imgur.com/emvhOnb.jpg);
+  background-image: url(https://static0.srcdn.com/wp-content/uploads/2018/02/Black-Panther-Poster-Title.jpg);
   animation-delay: 20s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
+  background-image: url(https://static0.srcdn.com/wp-content/uploads/2018/02/The-Incredibles-2-Trailer-Release-Date.jpg);
   animation-delay: 30s; 
 }
 .slideshow li:nth-child(5) { 
-  background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+  background-image: url(https://static1.squarespace.com/static/53d17c72e4b04908aec6a9d4/54e8d2b4e4b09706d4a3f5fc/55b2a17de4b0ba696377c902/1437770115589/Cracking+the+Coding+Interview+v6+-+Stack.png);
   animation-delay: 40s; 
 }
 

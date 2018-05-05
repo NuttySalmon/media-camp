@@ -3,7 +3,6 @@ var router  = express.Router();
 var Entry = require("../models/entry");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
-var geocoder = require('geocoder');
 
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
