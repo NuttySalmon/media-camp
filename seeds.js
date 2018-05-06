@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Entry = require("./models/entry");
 var Comment   = require("./models/comment");
 
+
 var data = [
     {
         name: "Cloud's Rest", 

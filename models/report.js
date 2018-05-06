@@ -2,7 +2,13 @@ var mongoose = require("mongoose");
 
 var commentSchema = mongoose.Schema({
 	createdAt: { type: Date, default: Date.now },
-    text: String,
+    recEntry_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Entry",
+        required: true
+    },
+    reportType: String,
+    comment: String,
     author: {
     	id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -12,4 +18,4 @@ var commentSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("Comment", commentSchema);
+module.exports = mongoose.model("Report", reportSchema);
