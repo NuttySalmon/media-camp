@@ -59,7 +59,7 @@ router.post("/login",
         successRedirect: "/entries/search",
         failureRedirect: "/users/login",
         failureFlash: true,
-        successFlash: 'Welcome to MediaAddict!'
+        successFlash: 'Welcome to Mediaddict!'
     }), function(req, res){
 });
 
