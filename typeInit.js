@@ -4,19 +4,19 @@ var Type = require("./models/type");
 var data = [
     {
         name: "Movie",
-        fields: ["Year", "Director", "Writers", "Stars", "Length"] 
+        fieldList: ["Year", "Director", "Writers", "Stars", "Length"] 
     },
     {
         name: "Game", 
-        fields: ["Year", "Publisher", "Platform"] 
+        fieldList: ["Year", "Publisher", "Platform"] 
     },
     {
         name: "Show", 
-        fields: ["Year", "No. of seasons", "Writer(s)", "No. of pages", "Stars", "Creators"] 
+        fieldList: ["Year", "No. of seasons", "Writer(s)", "No. of pages", "Stars", "Creators"] 
     },
     {
         name: "Book", 
-        fields: ["Author", ""] 
+        fieldList: ["Author", "No. of page", "ISBN", "Edition"] 
     },
 
 ];
@@ -32,7 +32,7 @@ function typeInit(){
         data.forEach(function(seed){
             Type.create(seed, function(err, type){
                 if(err){
-                    console.log(err)
+                    console.log(err);
                 } else {
                     console.log("added ", type.name);
                 }
@@ -42,4 +42,5 @@ function typeInit(){
     //add a few comments
 }
 
-module.exports = field-init;
+
+module.exports = typeInit;

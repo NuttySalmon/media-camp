@@ -10,6 +10,7 @@ var express         = require("express"),
     User            = require("./models/user"),
     expressSession  = require("express-session"),
     seedDB          = require("./seeds"),
+    typeInit        = require("./typeInit"),
     methodOverride  = require("method-override"),
     connectMongo = require('connect-mongo'),
     MongoStore = connectMongo(expressSession);
@@ -40,7 +41,7 @@ app.use(cookieParser('secret'));
 app.locals.moment = require('moment');
 
 //seedDB(); //seed the database
-
+typeInit();
 // PASSPORT CONFIGURATION
 app.use(expressSession({
     secret: "We spent too much time on this!",
