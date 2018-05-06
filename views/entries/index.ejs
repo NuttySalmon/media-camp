@@ -7,7 +7,7 @@
                 <a class="btn btn-primary btn-lg" href="/entries/new">Add New Entry</a>
             </p>
             <p>
-                <form action="/entries" method="GET" class="form-inline" id="entry-search">
+                <form action="/entries/search" method="GET" class="form-inline" id="entry-search">
                     <div class="form-group">
                         <input type="text" name="search" placeholder="Entry search..." class="form-control">
                     </div>
@@ -15,21 +15,23 @@
             </p>
         </div>
     </header>
-    <div class="row text-center flex-wrap" id="entry-grid">
-        <% entries.forEach(function(entry){ %>
-            <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
-                    <% if (typeof entry.image !== 'undefined') { console.log(entry.image);%>
-                        <img src="<%= entry.image %>">
-                    <% } %>
-                    <div class="caption">
-                        <h4><%= entry.name %></h4>
+    <div class="container">
+        <div class="row text-center flex-wrap" id="entry-grid">
+            <% entries.forEach(function(entry){ %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                        <% if (typeof entry.image !== 'undefined') { console.log(entry.image);%>
+                            <img src="<%= entry.image %>">
+                        <% } %>
+                        <div class="caption">
+                            <h4><%= entry.name %></h4>
+                        </div>
+                        <p>
+                            <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
+                        </p>
                     </div>
-                    <p>
-                        <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
-                    </p>
                 </div>
-            </div>
-            <% }); %>
+                <% }); %>
+        </div>
     </div>
 <% include ../partials/footer %>

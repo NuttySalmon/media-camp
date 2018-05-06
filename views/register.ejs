@@ -1,6 +1,5 @@
 <% include ./partials/header %>
 <link href="/stylesheets/form.css" rel="stylesheet">
-<div class="row">
     <div class="col-lg-12" id="main">
         <form class="form-register" method="post" action="/users/register" onsubmit="return validateForm()" novalidate>
             <div class="text-center mb-4">
@@ -38,7 +37,7 @@
                 </div>
                 <label for="password2">Confirm Password</label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">Register</button>
             <hr>
         </form>
         <script>
@@ -71,5 +70,5 @@
         })();
         </script>
     </div>
-</div>
+
 <% include ./partials/footer %>

@@ -34,11 +34,6 @@ body {
     padding: 9px;
 }
 
-/* Google Map styles */
-#map {
-	height: 400px;
-	width: 100%;
-}
 
 /* Entry show page delete button */
 .delete-form {

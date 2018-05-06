@@ -3,7 +3,7 @@ $('#entry-search').on('input', function() {
   if(search === "search=") {
     search = "all"
   }
-  $.get('/entries?' + search, function(data) {
+  $.get('/entries/search?' + search, function(data) {
     $('#entry-grid').html('');
     data.forEach(function(entry) {
       $('#entry-grid').append(`
