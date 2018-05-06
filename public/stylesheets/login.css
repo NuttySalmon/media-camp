@@ -51,3 +51,11 @@ label.login-label{
 input#username, input#password {
     color: var(--light-grey);
 }
+
+.form-signin{
+    border-style: solid;
+    border-color: var(--theme-color);
+    min-width: 30rem;
+    width: 80%;
+    padding: 5rem;
+}
