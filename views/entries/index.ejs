@@ -1,15 +1,15 @@
 <% include ../partials/header %>
-    <header class="jumbotron">
+    <header class="jumbotron" style="padding:1rem">
         <div class="container">
-            <h1><span class="glyphicon glyphicon-tent"></span> Welcome To Mediaddict!</h1>
+            <h1> Welcome To Mediaddict!</h1>
             <p>View our hand-picked entries from all over the world</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="/entries/new">Add New Entry</a>
+                <a class="btn btn-primary btn-lg" href="/entries/new">Add New Entry <i class="fas fa-file ml-1"></i></a>
             </p>
             <p>
-                <form action="/entries/search" method="GET" class="form-inline" id="entry-search">
-                    <div class="form-group">
-                        <input type="text" name="search" placeholder="Entry search..." class="form-control">
+                <form action="/entries/search mt-2" method="GET" class="form-inline" id="entry-search">
+                    <div class="form-group" style="min-width:100%">
+                        <input type="text" name="search" placeholder="Entry search..." class="form-control" style="min-width:100%">
                     </div>
                 </form>
             </p>
@@ -18,17 +18,17 @@
     <div class="container">
         <div class="row text-center flex-wrap" id="entry-grid">
             <% entries.forEach(function(entry){ %>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-2 col-sm-3">
                     <div class="thumbnail">
-                        <% if (typeof entry.image !== 'undefined') { console.log(entry.image);%>
-                            <img src="<%= entry.image %>">
+                        <% if (typeof entry.image !== 'undefined') { %>
+                            <a href="/entries/display/<%= entry._id %>"> <img src="<%= entry.image %>"> </a>
                         <% } %>
-                        <div class="caption">
+                        <!-- <div class="caption">
                             <h4><%= entry.name %></h4>
-                        </div>
+                        </div> -->
                         <p>
-                            <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
-                        </p>
+<!--                             <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
+                        </p> -->
                     </div>
                 </div>
                 <% }); %>

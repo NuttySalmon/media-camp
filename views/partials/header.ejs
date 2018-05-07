@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
     <link rel="stylesheet" href="/stylesheets/global.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
 </head>
 
 <body>
@@ -26,21 +27,22 @@
             </ul>
             <ul class="navbar-nav ml-md-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/entries/search">Search </a>
+                    <a class="nav-link" href="/entries/search">  <i class="fas fa-search"></i> Search </a>
                 </li>
                 <% if(!currentUser){ %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/register">Register </a>
+                        <a class="nav-link" href="/users/register"> <i class="fas fa-user-plus"></i> Sign-up </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/login">Login</a>
+                        <a class="nav-link" href="/users/login"><i class="fas fa-sign-in-alt"></i>
+                            Login</a>
                     </li>
                 <% } else { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><%= currentUser.username %></a>
+                        <a class="nav-link" href="#"> <i class="fas fa-user"></i> <%= currentUser.username %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/logout">Logout</a>
+                        <a class="nav-link" href="/users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </li>
                 <% } %>
             </ul>

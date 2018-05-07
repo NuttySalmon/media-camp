@@ -1,9 +1,10 @@
 <% include ./partials/header %>
 <link href="/stylesheets/form.css" rel="stylesheet">
-    <div class="col-lg-12" id="main">
+
+    <div class="col-lg-12 register-wrap" id="main">
         <form class="form-register" method="post" action="/users/register" onsubmit="return validateForm()" novalidate>
             <div class="text-center mb-4">
-                <h1 class="h3 mb-3 font-weight-normal">Make an account</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Make an account <!-- <i class="fas fa-user-plus mr-2 fa-sm"></i> --></h1>
             </div>
             <div class="form-label-group">
                 <input type="email" id="email" name="email" class="form-control" placeholder="avatar" required autofocus>
@@ -40,6 +41,9 @@
             <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">Register</button>
 
         </form>
+
+
+
         <script>
         function checkPasscode() {
             if (document.getElementById('password').value != document.getElementById('password2').value) {
@@ -70,5 +74,6 @@
         })();
         </script>
     </div>
+
 
 <% include ./partials/footer %>

@@ -2,7 +2,11 @@ var express = require("express");
 var router  = express.Router();
 var Entry = require("../models/entry");
 var Comment = require("../models/comment");
+var Detail = require("../models/detail");
 var middleware = require("../middleware");
+var ObjectId = require('mongoose').Types.ObjectId;
+var Type = require("../models/type");
+var Review = require("../models/review");
 
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
@@ -12,6 +16,29 @@ function escapeRegex(text) {
 //
 router.get("/", function(req, res){
   res.redirect("/entries/search");
+});
+
+router.get("/display/:id", function(req,res){
+   Entry.findById(req.params.id).populate("detailList").exec(function(err, foundEntry){
+
+        if(err){
+          console.log(err);
+        } else {
+          console.log(foundEntry)
+          Review.aggregate([
+                  { $group: {
+                      _id: '$entry_id',
+                      ratingAvg: { $avg: '$rating'}
+                  }}
+              ]).exec(function(err,result){
+                console.log(result);
+              });
+          //render show template with that entry
+          Type.findById(foundEntry.type.id).exec(function(err, foundType){
+            res.render("entries/display", {entry: foundEntry, typeIcon: foundType.fontAweIcon});
+          });
+        }    
+    });
 });
 
 //INDEX - show all entries
@@ -49,7 +76,7 @@ router.post("/search", middleware.isLoggedIn, function(req, res){
   var image = req.body.image;
   var desc = req.body.description;
   var author = {
-      id: req.user._id,
+      id: ObjectId(req.user._id),
       username: req.user.username
   }
 
@@ -135,6 +162,7 @@ router.delete("/:id", function(req, res) {
     })
   });
 });
+
 
 module.exports = router;
 

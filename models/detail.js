@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var detailSchema = new mongoose.Schema({
+detailSchema = new mongoose.Schema({
 	modifiedAt: { type: Date, default: Date.now },
    	field: String,
    	content: String,

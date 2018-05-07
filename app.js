@@ -24,6 +24,7 @@ var commentRoutes   = require("./routes/comments"),
     indexRoutes     = require("./routes/index"),
     userRoutes      = require("./routes/users"),
     newEntryRoutes  = require("./routes/newEntry"),
+    reviewRoutes    = require("./routes/reviews"),
     config          = require("./config");
 
 
@@ -72,6 +73,7 @@ app.use("/entries", entryRoutes);
 app.use("/users", userRoutes);
 app.use("/new-entry", newEntryRoutes);
 app.use("/entries/:id/comments", commentRoutes);
+app.use("/entries/:id/reviews", reviewRoutes);
 app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function() {

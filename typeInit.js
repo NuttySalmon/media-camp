@@ -1,23 +1,39 @@
 var mongoose = require("mongoose");
 var Type = require("./models/type");
+var ObjectId = require('mongoose').Types.ObjectId;
 
 var data = [
     {
+        _id: ObjectId("5A0000000000000000000000"),
         name: "movie",
-        fieldList: ["year", "director", "writers", "stars", "length"] 
+        fieldList: ["genre", "year", "director", "writers", "stars", "length"],
+        fontAweIcon: "film" 
     },
     {
+        _id: ObjectId("5A0000000000000000000001"),
         name: "game", 
-        fieldList: ["year", "publisher", "platform"] 
+        fieldList: ["genre","year", "publisher", "platform"],
+        fontAweIcon: "gamepad" 
     },
     {
+        _id: ObjectId("5A0000000000000000000002"),
         name: "show", 
-        fieldList: ["year", "no. of seasons", "writers", "no. of pages", "stars", "creators"] 
+        fieldList: ["genre", "year", "no. of seasons", "writers", "no. of pages", "stars", "creators"],
+        fontAweIcon: "tv" 
     },
     {
+        _id: ObjectId("5A0000000000000000000003"),
         name: "book", 
-        fieldList: ["author", "no. of page", "iSBN", "edition"] 
+        fieldList: ["genre","author", "no. of page", "ISBN", "edition"],
+        fontAweIcon: "book"  
     },
+    {
+        _id: ObjectId("5A0000000000000000000004"),
+        name: "music album", 
+        fieldList: ["genre","performer", "year", "no. of tracks","composer", "length"],
+        fontAweIcon: "music" 
+    },
+    
 
 ];
 

@@ -32,6 +32,13 @@ body {
     /* margin-top: 5rem; */
 }
 
+.register-wrap{
+
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        background-image: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/ENwbI9D3xilj9k3k8/texture-of-crumpled-paper-video-animation_bpxjp_sg__F0000.png);
+}
+
 .form-signin {
     width: 100%;
     max-width: 420px;
