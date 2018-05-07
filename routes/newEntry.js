@@ -71,6 +71,7 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
             name: typeEntry.name
         };
 
+        //get commmon variables 
         var name = req.body.name;
         var image = req.body.image;
         var desc = req.body.description;

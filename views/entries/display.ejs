@@ -112,7 +112,7 @@
             <h5><i class="fas fa-comment-alt mr-2" style="color:#4F4F4FFF; vertical-align: middle;"></i> Recommedation entries</h5>
             </div> 
             <div class="col">
-              <a href=""><i class="far fa-plus-square fa-2x mb-2"></i></a>
+              <a href="/entries/<%= entry._id %>/recommendations/new"><i class="far fa-plus-square fa-2x mb-2"></i></a>
             </div>
           </div>
           </div>
@@ -121,7 +121,13 @@
         <div class="container recommedations-entries mt-2">
           <div class="row">
 		  	<ul class="list-group rec-item mt-2">
-				<li class="list-group-item"> <a href=""> <strong>nuttysalmon</strong> recommends <strong><em>Back to the Future III</em></strong></a></li>
+          <%entry.recCommentList.forEach(function(recComment){%>
+            <li class="list-group-item"> <a href=""> <strong><%=recComment.author.username%>
+              
+            </strong> recommends <strong><em><%=recComment.target%></em></strong></a></li>
+          <%})%>
+
+				<!-- <li class="list-group-item"> <a href=""> <strong>nuttysalmon</strong> recommends <strong><em>Back to the Future III</em></strong></a></li>
 				<li class="list-group-item"><a href=""> <strong>ojwefi034</strong> recommends  <strong><em>The Time Machine</em></strong></a></li>
 				<li class="list-group-item"><a href=""> <strong>basfpam</strong> recommends  <strong><em>Back to the Future: The Game</em></strong></a></li>
 				<li class="list-group-item"><a href=""> <strong>pcgamer0033</strong> recommends  <strong><em>Back to the Future: The Game</em></strong></a></li>
@@ -137,7 +143,7 @@
 				<li class="list-group-item"><a href=""> <strong>horinza</strong> recommends  <strong><em>Back to the Future III</em></strong></a></li>
 				<li class="list-group-item"><a href=""> <strong>io30man</strong> recommends  <strong><em>Back to the Future III</em></strong></a></li>
 				<li class="list-group-item"><a href=""> <strong>pratratic</strong> recommends  <strong><em>Back to the Future II</em></strong></a></li>
-			</ul>
+			 --></ul>
           </div>
         </div>
       </div>

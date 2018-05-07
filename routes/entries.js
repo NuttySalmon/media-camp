@@ -20,7 +20,10 @@ router.get("/", function(req, res) {
 
 //display page
 router.get("/display/:id", function(req, res) {
-    Entry.findById(req.params.id).populate("detailList").populate("reviewList").exec(function(err, foundEntry) {
+    Entry.findById(req.params.id).populate("detailList")
+    .populate("reviewList")
+    .populate("recCommentList")
+    .exec(function(err, foundEntry) {
         if (err) {
             console.log(err);
         } else {

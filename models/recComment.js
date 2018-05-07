@@ -5,7 +5,7 @@ var recCommentSchema = mongoose.Schema({
     rec_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "ManRec",
-        required: true
+        required: false
     },
     reason: String,
     author: {
@@ -15,6 +15,16 @@ var recCommentSchema = mongoose.Schema({
         },
         username: String
     },
+    entry_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Entry",
+        required: true
+    },
+    target: {
+        type: String,
+        required: true
+    }
+    
     
 });
 

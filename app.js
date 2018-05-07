@@ -12,10 +12,12 @@ var express         = require("express"),
     seedDB          = require("./seeds"),
     typeInit        = require("./typeInit"),
     methodOverride  = require("method-override"),
+
+    //used for storing in mongodb
     connectMongo = require('connect-mongo'),
     MongoStore = connectMongo(expressSession);
-// configure dotenv
 
+    // configure dotenv
     require('dotenv').load();
 
 //requiring routes
@@ -25,6 +27,7 @@ var commentRoutes   = require("./routes/comments"),
     userRoutes      = require("./routes/users"),
     newEntryRoutes  = require("./routes/newEntry"),
     reviewRoutes    = require("./routes/reviews"),
+    recRoutes       = require("./routes/recComments"),
     config          = require("./config");
 
 
@@ -39,12 +42,17 @@ app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redi
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 app.use(methodOverride('_method'));
+
 app.use(cookieParser('secret'));
 //require moment
 app.locals.moment = require('moment');
 
 //seedDB(); //seed the database
+
+//init all type objects
 typeInit();
+
+
 // PASSPORT CONFIGURATION
 app.use(expressSession({
     secret: "We spent too much time on this!",
@@ -56,9 +64,9 @@ app.use(expressSession({
 }));
 
 app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
@@ -67,13 +75,16 @@ app.use(function(req, res, next){
    next();
 });
 
-
+//url routing
 app.use("/", indexRoutes);
 app.use("/entries", entryRoutes);
 app.use("/users", userRoutes);
 app.use("/new-entry", newEntryRoutes);
 //app.use("/entries/:id/comments", commentRoutes);
 app.use("/entries/:id/reviews", reviewRoutes);
+app.use("/entries/:id/recommendations", recRoutes);
+
+//port
 app.set('port', (process.env.PORT || 3000));
 
 app.listen(app.get('port'), function() {

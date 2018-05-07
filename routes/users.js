@@ -69,7 +69,7 @@ router.get("/logout", function(req, res){
    req.flash("success", "See you later!");
    req.session.destroy();  
 
-   var successM= {message:"Successfully logged out."};
+   //var successM= {message:"Successfully logged out."};
     res.redirect("/entries/search");
 });
 
