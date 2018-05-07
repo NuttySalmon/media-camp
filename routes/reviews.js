@@ -63,36 +63,36 @@ router.get("/:reviewId/edit", middleware.isLoggedIn, function(req, res){
     })
 });
 
-router.put("/:reviewId", function(req, res){
-   Review.findByIdAndUpdate(req.params.reviewId, req.body.review, function(err, review){
-       if(err){
-          console.log(err);
-           res.render("edit");
-       } else {
-           res.redirect("/entries/" + req.params.id);
-       }
-   }); 
-});
+// router.put("/:reviewId", function(req, res){
+//    Review.findByIdAndUpdate(req.params.reviewId, req.body.review, function(err, review){
+//        if(err){
+//           console.log(err);
+//            res.render("edit");
+//        } else {
+//            res.redirect("/entries/" + req.params.id);
+//        }
+//    }); 
+// });
 
-router.delete("/:reviewId",middleware.checkUserReview, function(req, res){
-    Review.findByIdAndRemove(req.params.reviewId, function(err, review){
-        if(err){
-            console.log(err);
-        } else {
-            Entry.findByIdAndUpdate(req.params.id, {
-              $pull: {
-                reviews: review.id
-              }
-            }, function(err) {
-              if(err){ 
-                console.log(err)
-              } else {
-                req.flash('error', 'Review deleted!');
-                res.redirect("/entries/" + req.params.id);
-              }
-            });
-        }
-    });
-});
+// router.delete("/:reviewId",middleware.checkUserReview, function(req, res){
+//     Review.findByIdAndRemove(req.params.reviewId, function(err, review){
+//         if(err){
+//             console.log(err);
+//         } else {
+//             Entry.findByIdAndUpdate(req.params.id, {
+//               $pull: {
+//                 reviews: review.id
+//               }
+//             }, function(err) {
+//               if(err){ 
+//                 console.log(err)
+//               } else {
+//                 req.flash('error', 'Review deleted!');
+//                 res.redirect("/entries/" + req.params.id);
+//               }
+//             });
+//         }
+//     });
+// });
 
 module.exports = router;

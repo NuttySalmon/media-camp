@@ -72,7 +72,7 @@ app.use("/", indexRoutes);
 app.use("/entries", entryRoutes);
 app.use("/users", userRoutes);
 app.use("/new-entry", newEntryRoutes);
-app.use("/entries/:id/comments", commentRoutes);
+//app.use("/entries/:id/comments", commentRoutes);
 app.use("/entries/:id/reviews", reviewRoutes);
 app.set('port', (process.env.PORT || 3000));
 

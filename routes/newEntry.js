@@ -12,9 +12,6 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            // if (req.xhr) {
-            //     res.json(allTypes);
-            // } else {
             var typeNames = [];
             for (const type of allTypes) {
                 typeNames.push(type.name);
@@ -38,10 +35,9 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            // if (req.xhr) {
-            //     res.json(typeEntry);
-            // } else {
             console.log(typeEntry.name);
+
+            //bring fieldList to front end
             res.render("entries/new-details", { typeName: typeName, fieldList: typeEntry.fieldList });
         }
     });
@@ -66,6 +62,8 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
             return res.redirect("/");
         }
 
+        //get data from rq
+
         var author = req.user._id;
 
         var type = {
@@ -77,6 +75,7 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
         var image = req.body.image;
         var desc = req.body.description;
 
+        //set up new object
         var newEntry = {
             name: name,
             image: image,
@@ -96,18 +95,16 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
                 return res.redirect("/");
             }
 
+            //store info for each field in type
             for (const fieldName of typeEntry.fieldList) {
 
+                //re-obtain object to fix saving bug
                 Entry.findById(newlyCreated._id).exec(function(err, entry) {
 
-                    // newlyCreated.save();
-                    //console.log(typeEntry);
-
-
-                    //console.log("fieldName");
-                    //fieldName = typeEntry.fieldList[i];
-                    //console.log(fieldName);
+                    //set up field content
                     var content = req.body[fieldName];
+
+                    //create new detail object if field content is not empty
                     if (content !== "") {
                         var newDetail = {
                             field: fieldName,
@@ -115,12 +112,14 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
                             entry_id: newlyCreated._id
                         };
 
+                        //create detail object
                         Detail.create(newDetail, function(err, detail) {
                             if (err) { return console.log(err); }
-                            //console.log("Detail:", detail);
+
+                            //push detail object id back to entry detailList
                             entry.detailList.push(detail._id);
                             entry.save(function() {
-                                //console.log(newlyCreated.detailList);
+
                             });
 
                         });
