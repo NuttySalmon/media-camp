@@ -21,7 +21,7 @@
                 <div class="col-md-2 col-sm-3">
                     <div class="thumbnail">
                         <% if (typeof entry.image !== 'undefined') { %>
-                            <a href="/entries/display/<%= entry._id %>"> <img src="<%= entry.image %>"> </a>
+                            <a  href="/entries/display/<%= entry._id %>"> <img class="poster-showcase" src="<%= entry.image %>"> </a>
                         <% } %>
                         <!-- <div class="caption">
                             <h4><%= entry.name %></h4>
@@ -34,4 +34,15 @@
                 <% }); %>
         </div>
     </div>
+    <style>
+.poster-showcase{
+    box-shadow: 0px 0px 10px 0px grey;
+       border-style:solid;
+   border-color: white;
+}
+.poster-showcase:hover {
+    
+   box-shadow: 0px 0px 10px 0px black;
+}
+</style>
 <% include ../partials/footer %>
