@@ -74,7 +74,8 @@ router.post("/search", middleware.isLoggedIn, function(req, res){
 
 //NEW - show form to create new entry
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("entries/new"); 
+   // res.render("entries/new"); 
+   res.redirect("/new-entry")
 });
 
 // SHOW - shows more info about one entry

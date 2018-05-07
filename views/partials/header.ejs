@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="/entries/search">Mediaddict</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +46,7 @@
             </ul>
         </div>
     </nav>
-    
+    </header>
     <div class="container flash-top">
      <% if(error && error.length > 0) { %>
        <div class="alert alert-danger"><p><%=error %></p></div>
@@ -54,5 +55,6 @@
      <% if(success && success.length > 0) { %>
        <div class="alert alert-success"><p><%= success %></p></div>
      <% } %>
-  </div>
+    </div>
+   <!--  <div id="wrap"> -->
 

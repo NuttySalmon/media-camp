@@ -8,12 +8,12 @@
             <div class="form-label-group">
                 <input type="email" id="email" name="email" class="form-control" placeholder="avatar" required autofocus>
                 <label for="email">Email</label>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" min=5>
                     Invalid email
                 </div>
             </div>
             <div class="form-label-group">
-                <input type="text" id="username" name="username" class="form-control" placeholder="username" required>
+                <input type="text" id="username" name="username" class="form-control" placeholder="username" min="5" max="20" required>
                 <div class="invalid-feedback">
                     Invalid username
                 </div>
@@ -38,7 +38,7 @@
                 <label for="password2">Confirm Password</label>
             </div>
             <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">Register</button>
-            <hr>
+
         </form>
         <script>
         function checkPasscode() {

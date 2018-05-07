@@ -10,6 +10,7 @@ var express         = require("express"),
     User            = require("./models/user"),
     expressSession  = require("express-session"),
     seedDB          = require("./seeds"),
+    typeInit        = require("./typeInit"),
     methodOverride  = require("method-override"),
     connectMongo = require('connect-mongo'),
     MongoStore = connectMongo(expressSession);
@@ -22,7 +23,9 @@ var commentRoutes   = require("./routes/comments"),
     entryRoutes     = require("./routes/entries"),
     indexRoutes     = require("./routes/index"),
     userRoutes      = require("./routes/users"),
+    newEntryRoutes  = require("./routes/newEntry"),
     config          = require("./config");
+
 
 mongoose.connect(config.mongoUri);
 app.use(bodyParser.urlencoded({extended: true}));
@@ -40,7 +43,7 @@ app.use(cookieParser('secret'));
 app.locals.moment = require('moment');
 
 //seedDB(); //seed the database
-
+typeInit();
 // PASSPORT CONFIGURATION
 app.use(expressSession({
     secret: "We spent too much time on this!",
@@ -67,6 +70,7 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/entries", entryRoutes);
 app.use("/users", userRoutes);
+app.use("/new-entry", newEntryRoutes);
 app.use("/entries/:id/comments", commentRoutes);
 app.set('port', (process.env.PORT || 3000));
 

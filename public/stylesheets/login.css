@@ -1,9 +1,11 @@
 @import "color.css";
 
 .login-bg{
-	 background-color: var(--dark-grey); 
-	 height:100%;
 	 color: var(--light-grey);
+	 background-color: var(--dark-grey);
+	 position: fixed;
+	 height: 100%;
+	 width: 100%;
 }
 
 .flash-top{

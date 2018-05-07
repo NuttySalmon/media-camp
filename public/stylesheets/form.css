@@ -8,7 +8,7 @@
 
 html,
 body {
-    height: 100%;
+    height: unset;
 }
 
 body {
@@ -18,16 +18,18 @@ body {
     align-items: center;
     /* padding-top: 40px; */
     /* padding-bottom: 40px; */
-    /* background-color: var(--bg-color); */
+    background-color: var(--bg-color);
 }
 
 #main {
+    min-height: 20%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     max-width: 100%;
-    /* max-height: 100%; */
+    max-height: 100%;
+    /* margin-top: 5rem; */
 }
 
 .form-signin {
@@ -40,6 +42,13 @@ body {
 .form-register {
     width: 100%;
     max-width: 420px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-new-entry {
+    width: 100%;
+    max-width: 600px;
     padding: 15px;
     margin: auto;
 }
@@ -130,3 +139,8 @@ body {
 }
 
 
+.type-option {
+    font-size: 1.3rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
