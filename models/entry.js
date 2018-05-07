@@ -44,7 +44,7 @@ var entrySchema = new mongoose.Schema({
 
     reviewList: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "review"
+        ref: "Review"
     }],
     manRecList: [{
         type: mongoose.Schema.Types.ObjectId,

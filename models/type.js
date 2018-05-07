@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
 
 var typeSchema = new mongoose.Schema({
-<<<<<<< HEAD
 	_id: mongoose.Schema.Types.ObjectId,
 	name: {type:String, unique: true, required: true},
 	fieldList: [String],

@@ -45,7 +45,7 @@ router.post("/",middleware.isLoggedIn,function(req, res){
                entry.save();
                console.log(review);
                req.flash('success', 'Created a review!');
-               res.redirect('/entries/display/' + entry._id);
+               return res.redirect('/entries/display/' + entry._id);
            }
         });
        }

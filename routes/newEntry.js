@@ -89,7 +89,12 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
 
         // Create a new entry and save to DB
         Entry.create(newEntry, function(err, newlyCreated) {
-            if (err) { return console.log(err); }
+            if (err) {
+
+                console.log(err);
+                req.flash("error", "Unable to create new entry.");
+                return res.redirect("/");
+            }
 
             for (const fieldName of typeEntry.fieldList) {
 

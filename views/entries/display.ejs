@@ -22,12 +22,12 @@
           </div>
           <div class="col-auto">
             <h2><span class="badge badge-info" style="background-color: #64ACC9;">
-              <%if (typeof entry.rating === "undefined"){%>
-                -
+              <i class="fas fa-star fa-xs" style="bottom: 0.2rem; position: relative;"></i>
+              <%if (typeof rating === "undefined"){%>
+                -/5
               <%}else{%>
-                <%=entry.rating%>
-              <%}%>
-              /5
+                <%=rating%>/5
+               <%}%>
             </span></h2>
           </div>
         </div>
@@ -48,8 +48,8 @@
 </div>
 <div class="info-bottom pt-3">
   <div class="container" >
-    <div class="row">
-      <h4><em><i class="fas fa-chart-line mr-2"></i>Top user suggestions... </em></h4>
+    <div class="row mb-1">
+      <h4><em><i class="fas fa-chart-line mr-3 fa-lg"></i>Top user suggestions... </em></h4>
     </div>
     <div class="row">
       <ul class="nav nav-tabs" id="recTab" role="tablist">
@@ -109,7 +109,7 @@
           <div class="col-xl-10 rec-and-reviews-heading">
             <div class="row">
               <div class="col-10">
-            <h5><i class="fas fa-comment-alt mr-2"></i> Recommedation entries</h5>
+            <h5><i class="fas fa-comment-alt mr-2" style="color:#4F4F4FFF; vertical-align: middle;"></i> Recommedation entries</h5>
             </div> 
             <div class="col">
               <a href=""><i class="far fa-plus-square fa-2x mb-2" style="color:#7faebd"></i></a>
@@ -147,7 +147,7 @@
           <div class="col-xl-10 rec-and-reviews-heading">
             <div class="row">
               <div class="col-10">
-            <h5><i class="fas fa-star mr-2"></i> Reviews and Ratings</h5>
+            <h5> <i class="fas fa-clipboard mr-2 fa-lg" style="color:#4F4F4FFF; vertical-align: middle;"></i> Reviews and Ratings</h5>
             </div> 
             <div class="col">
               <a href="/entries/<%= entry._id %>/reviews/new"> <i class="far fa-plus-square fa-2x mb-2" style="color:#7faebd"></i> </a>
@@ -157,10 +157,17 @@
         </div>
         <div class="row">
 			<div class="container recommedations-entries mt-2">
-				<ul class="list-group rec-item mt-2">
+				<!-- <ul class="list-group rec-item mt-2">
 				<li class="list-group-item"> <a href=""> <strong>nuttysalmon</strong> rates this  <strong>4.5</strong></a></li>
 				<li class="list-group-item"> <a href=""> <strong>horinza</strong> rates this  <strong>4.9</strong> - "One of the greatest movies ever made."</a></li>
-				<li class="list-group-item"> <a href=""> <strong>pratratic</strong> rates this  <strong>3.9</strong> - "It's alright I guess."</li></a>
+				<li class="list-group-item"> <a href=""> <strong>pratratic</strong> rates this  <strong>3.9</strong> - "It's alright I guess."</li></a> -->
+
+        <%entry.reviewList.forEach(function(review){ %>
+          <li class="list-group-item"> <a href=""> <strong><%=review.author.username%></strong> rates this  
+            <strong><%=review.rating%></strong>  <%= review.comment ? '- "' +  review.comment + '"' :"" %> 
+          </a></li>
+
+        <%})%>
 				</ul>
 			</div>
         </div>
