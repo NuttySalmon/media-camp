@@ -64,7 +64,15 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
           <ul class="suggestion-grid pb-3" id="custom-scrollbar">
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"></a> </li>
+            <%for (var i=0; i<20; i++){%>
+            <%if (typeof manRecList[i] !== "undefined"){%>
+            <li class="col-sm-2 suggestion-grid-item"> 
+              <a href="<%=manRecList[i].targetEntry_id._id%>">
+                <img class="img-fluid suggestion-grid-poster" src="<%=manRecList[i].targetEntry_id.image%>">
+              </a> 
+            </li>
+            <%}}%>
+           <!--  <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"></a> </li>
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZmM4YTE5ZjYtODY3YS00OTE1LTgyNzQtNmNmOTNmNDEzYTI1XkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_.jpg"> </a></li>
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,665,1000_AL_.jpg"></a> </li>
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1327942880l/2493.jpg"> </a></li>
@@ -72,7 +80,7 @@
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BYjhlMGYxNmMtOWFmMi00Y2M2LWE5NWYtZTdlMDRlMGEzMDA3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,676,1000_AL_.jpg"></a> </li>
             <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1402600310l/10964.jpg"> </a></li>
             <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1437728815l/14050.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjA0ODEzMTc1Nl5BMl5BanBnXkFtZTcwODM2MjAxNA@@._V1_SY1000_CR0,0,664,1000_AL_.jpg"></a> </li>
+            <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjA0ODEzMTc1Nl5BMl5BanBnXkFtZTcwODM2MjAxNA@@._V1_SY1000_CR0,0,664,1000_AL_.jpg"></a> </li> -->
           </ul>
         </div>
         <div class="tab-pane fade" id="movies" role="tabpanel" aria-labelledby="movies-tab">
@@ -122,9 +130,9 @@
           <div class="row">
 		  	<ul class="list-group rec-item mt-2">
           <%entry.recCommentList.forEach(function(recComment){%>
-            <li class="list-group-item"> <a href=""> <strong><%=recComment.author.username%>
+            <li class="list-group-item">  <strong><%=recComment.author.username%>
               
-            </strong> recommends <strong><em><%=recComment.target%></em></strong></a></li>
+            </strong> recommends <a href="<%=recComment.manRec.target_id%>"><strong><em><%=recComment.manRec.targetName%></em></strong></a></li>
           <%})%>
 
 				<!-- <li class="list-group-item"> <a href=""> <strong>nuttysalmon</strong> recommends <strong><em>Back to the Future III</em></strong></a></li>

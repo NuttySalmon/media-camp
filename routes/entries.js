@@ -7,6 +7,7 @@ var middleware = require("../middleware");
 var ObjectId = require('mongoose').Types.ObjectId;
 var Type = require("../models/type");
 var Review = require("../models/review");
+var manRec = require("../models/manRec");
 
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
@@ -22,12 +23,17 @@ router.get("/", function(req, res) {
 router.get("/display/:id", function(req, res) {
     Entry.findById(req.params.id).populate("detailList")
     .populate("reviewList")
-    .populate("recCommentList")
+    .populate({ 
+      path: "recCommentList",
+      options: { sort: { 'createdAt': -1 } }
+    })
+
+    .populate("manRecList")
     .exec(function(err, foundEntry) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundEntry)
+            //console.log(foundEntry)
             //calculate average rating
             Review.aggregate([{
                     "$match": {
@@ -48,10 +54,20 @@ router.get("/display/:id", function(req, res) {
                     rating = aggResult[0].ratingAvg.toFixed(1);;
                 }
 
-                //find type to get icon
-                Type.findById(foundEntry.type.id).exec(function(err, foundType) {
-                    res.render("entries/display", { entry: foundEntry, typeIcon: foundType.fontAweIcon, rating: rating });
+                manRec.find({recEntry_id: req.params.id})
+                .sort({
+                    "count": -1.0
+                })
+                .populate ("targetEntry_id")
+                .exec(function(error, manRecList){
+                  console.log(manRecList);
+                  Type.findById(foundEntry.type.id).exec(function(err, foundType) {
+                      res.render("entries/display", 
+                        { entry: foundEntry, typeIcon: foundType.fontAweIcon, rating: rating, manRecList: manRecList});
+                  });
                 });
+                //find type to get icon
+                
             });
             //render show template with that entry
 

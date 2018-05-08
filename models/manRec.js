@@ -12,7 +12,7 @@ var manRecSchema = mongoose.Schema({
         ref: "Entry",
         required: true
     },
-    commentList: [{
+    recCommentList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "RecComment"
     }],
