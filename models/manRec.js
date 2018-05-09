@@ -16,14 +16,7 @@ var manRecSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "RecComment"
     }],
-    count:{type: Number, default: 0},
-    author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        username: String
-    }
+    count:{type: Number, default: 0}
 });
 
 module.exports = mongoose.model("ManRec", manRecSchema);

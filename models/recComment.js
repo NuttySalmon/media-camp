@@ -3,13 +3,9 @@ var mongoose = require("mongoose");
 var recCommentSchema = mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     manRec: {
-        id:{
             type: mongoose.Schema.Types.ObjectId,
                 ref: "ManRec",
-                required: false
-        },
-        targetName: String,
-        target_id: String
+                required: false 
     },
     reason: String,
     author: {
@@ -26,9 +22,13 @@ var recCommentSchema = mongoose.Schema({
     },
 
     target: {
-        type: String,
-        required: false
+        id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Entry"
+        },
+        name: String
     }
+
     
     
 });

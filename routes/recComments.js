@@ -4,6 +4,7 @@ var Entry = require("../models/entry");
 var RecComment = require("../models/recComment");
 var middleware = require("../middleware");
 var ManRec = require("../models/manRec");
+var ObjectID = require("mongodb").ObjectID;
 
 //reviews New
 // router.get("/", function(req,res){
@@ -12,7 +13,7 @@ var ManRec = require("../models/manRec");
 
 router.get("/new", middleware.isLoggedIn, function(req, res) {
 
-    console.log(req.params.id);
+   // console.log(req.params.id);
     Entry.findById(req.params.id, function(err, entry) {
         if (err) {
             console.log(err);
@@ -23,100 +24,132 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
     // res.redirect("/entries/search");
 });
 
+pushToRManRec = function(manRec, recComment, callback) {
+
+    recComment.manRec = manRec.id;
+    recComment.save();
+    manRec.count++;
+    manRec.recCommentList.push(recComment);
+    manRec.save();
+    //console.log(recComment);
+
+}
+
+linkRecComment = function(manRec, recComment, entry, targetID, callback) {
+
+    console.log(manRec);
+    if (typeof manRec === "undefined") {
+        //new manRec
+        newManRec = {
+            recEntry_id: entry.id,
+            targetEntry_id: targetID
+        }
+
+        ManRec.create(newManRec, function(err, newManRec) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            entry.manRecList.push(newManRec);
+            entry.save();
+            pushToRManRec(newManRec, recComment);
+            
+            //console.log(recComment);                                
+        });
+
+    } else {
+        pushToRManRec(manRec, recComment);
+    }
+
+    recComment.save();
+    console.log(entry._id);
+    entry.recCommentList.push(recComment);
+    entry.save();
+    return callback();
+}
 //reviews Create
 router.post("/", middleware.isLoggedIn, function(req, res) {
+    if(req.params.id == req.body.target_id){
+      req.flash('error', 'You cannot recommend the entry to itself.')
+      return res.redirect("/entries/" + req.params.id+"/recommendations/new/");  
+    }
 
+    if(!(req.params.id instanceof ObjectID))
+    {
+         req.flash("error", "Invalid recommendation.")
+          return res.redirect("/entries/" + req.params.id+"/recommendations/new/")
+    }
     //lookup entry using ID
-    Entry.findById(req.params.id, function(err, entry) {
-        if (err) {
-          console.log(err);
-          res.redirect("/entries/search");
-        } else {
-          //lookup target
-          Entry.findById(req.body.target_id, function(err, target) {
-              if (err) {
+    Entry.findById(req.params.id)
+        .populate({
+            path: "manRecList",
+            match: { targetEntry_id: req.body.target_id }
+        })
+        .populate({
+            path: "recCommentList",
+            match: { "target.id": req.body.target_id}
+        })
+        .exec(function(err, entry) {
+            if (err) {
                 console.log(err);
-                res.redirect("/entries/search");
-              } else{
-                ManRec.find({ recEntry_id: entry._id, targetEntry_id: target._id })
-                    .exec(function(err, foundManRecList) {
-                      var foundManRec;
-                      if(err){
+                return res.redirect("/entries/search");
+            }
+
+            //varify no existing recommendation
+            var count = 0;
+            for(var i = 0; i < entry.recCommentList.length && count ===0; i++ ){
+              if(entry.recCommentList[i].author.id.toString() == req.user._id){
+                count++;
+              }
+            }
+            console.log(count);
+            if(count !==0){
+              req.flash("error", "Unable to add recommendation. You have already.recommended this ")
+              return res.redirect("/entries/display/" + req.params.id)
+            }
+            //varify target
+            Entry.findById(req.body.target_id, function(err, target) {
+                if (err) {
+                    console.log(err);
+                    req.flash("Sorry, an error occurred.");
+                    return res.redirect("/entries/search");
+                }
+
+                return console.log(target);
+                if (typeof target === "undefined") {
+                    console.log(err);
+                    req.flash("Sorry, an error occurred.");
+                    return res.redirect("/entries/search");
+                }
+
+                var newRecComment = {
+                    entry_id: entry._id,
+                    "target.name": target.name,
+                    "target.id": target._id,
+                    "author.id": req.user._id,
+                    "author.username": req.user.username,
+
+                };
+                console.log(entry);
+                RecComment.create(newRecComment, function(err, recComment) {
+                    if (err) {
                         return console.log(err);
-                      }
-                      //if no manRec found
+                    }
 
 
-                      //console.log(foundManRec);
-                      var newRecComment = {
-                        entry_id: entry._id,
-                        "manRec.targetName": target.name,
-                        "manRec.target_id": target._id
-                        //manRec:{id: foundManRec._id, targetName: target.name}
-
-                      };
-
-                      RecComment.create(newRecComment, function(err, recComment) {
-
+                    linkRecComment(entry.manRecList[0], recComment, entry, target.id, function(err) {
                         if (err) {
-                            console.log(err);
+                            req.flash('error', "Sorry, your recommendation was not successful. Please try again.")
                         } else {
-                            //add username and id to review
-                            recComment.author.id = req.user._id;
-                            recComment.author.username = req.user.username;
-                            //save review
-                            recComment.save();
-                            console.log(entry._id);
-                            entry.recCommentList.push(recComment);
-                           // entry.save();
-
-                            if(foundManRecList.length === 0){
-                              
-                              
-                              //new manRec
-                              newManRec={
-                                recEntry_id: req.params.id, 
-                                targetEntry_id: req.body.target_id 
-                              }
-
-                              ManRec.create(newManRec, function(err, newManRec){
-                                  if(err){
-                                    console.log(err);
-                                  }
-
-                                  recComment.manRec.id = newManRec.id;
-                                  recComment.manRec.targetName = target.name;
-                                  entry.manRecList.push(newManRec);
-                                  entry.save();
-                                  foundManRec = newManRec;
-                                  foundManRec.count++;
-                                  foundManRec.recCommentList.push(recComment);
-                                  foundManRec.save();
-                                  //console.log(recComment);
-                                  req.flash('success', 'Created a recommendation!');
-                                  console.log(foundManRec);
-                                  return res.redirect('/entries/display/' + entry._id);
-                                });
-                              
-                            } else{
-                              entry.save();
-                              foundManRec = foundManRecList[0];
-                              foundManRec.count++;
-                              foundManRec.recCommentList.push(recComment);
-                              foundManRec.save();
-                              //console.log(recComment);
-                              req.flash('success', 'Created a recommendation!');
-                              return res.redirect('/entries/display/' + entry._id);
-                            }
-
-                        }
-                    });
+                            req.flash('success', 'Created a recommendation!')
+                        };
+                        return res.redirect('/entries/display/' + entry._id);
+                    })
                 });
-              };
-          }); 
-        }
-    });
+            });
+        });
 });
+
 
 // router.get("/:reviewId/edit", middleware.isLoggedIn, function(req, res){
 //     // find entry by id

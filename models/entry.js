@@ -1,21 +1,4 @@
 var mongoose = require("mongoose");
-var Detail = require("./detail");
-
-// var childSchema = new mongoose.Schema({ name: 'string' });
-// var detailSchema = new mongoose.Schema({
-//     modifiedAt: { type: Date, default: Date.now },
-//     field: String,
-//     content: String,
-//     entry_id: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "Entry"
-//     },
-// })
-
-// var test = new mongoose.Schema({
-//     field: String
-// });
-
 var entrySchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     author: {
@@ -24,8 +7,8 @@ var entrySchema = new mongoose.Schema({
     },
     type: {
         id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Type"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Type"
         },
         name: {
             type: String,

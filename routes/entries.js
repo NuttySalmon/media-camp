@@ -9,6 +9,15 @@ var Type = require("../models/type");
 var Review = require("../models/review");
 var manRec = require("../models/manRec");
 
+function round(number, precision) {
+  var shift = function (number, precision) {
+    var numArray = ("" + number).split("e");
+    return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+  return shift(Math.round(shift(number, +precision)), -precision);
+}
+
+
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -21,58 +30,69 @@ router.get("/", function(req, res) {
 
 //display page
 router.get("/display/:id", function(req, res) {
-    Entry.findById(req.params.id).populate("detailList")
-    .populate("reviewList")
-    .populate({ 
+  Entry.findById(req.params.id)
+    .populate("detailList")
+    .populate({
+      path: "reviewList",
+      options: { sort: { 'createdAt': -1 } }
+    })
+    .populate({
       path: "recCommentList",
       options: { sort: { 'createdAt': -1 } }
     })
-
-    .populate("manRecList")
-    .exec(function(err, foundEntry) {
-        if (err) {
-            console.log(err);
-        } else {
-            //console.log(foundEntry)
-            //calculate average rating
-            Review.aggregate([{
-                    "$match": {
-                        "entry_id": ObjectId(req.params.id)
-                    },
-                },
-                {
-                    $group: {
-                        _id: '$entry_id',
-                        ratingAvg: { $avg: '$rating' }
-                    }
-                }
-            ]).exec(function(err, aggResult) {
-                var rating;
-
-                //set up rating if present
-                if (aggResult.length) {
-                    rating = aggResult[0].ratingAvg.toFixed(1);;
-                }
-
-                manRec.find({recEntry_id: req.params.id})
-                .sort({
-                    "count": -1.0
-                })
-                .populate ("targetEntry_id")
-                .exec(function(error, manRecList){
-                  console.log(manRecList);
-                  Type.findById(foundEntry.type.id).exec(function(err, foundType) {
-                      res.render("entries/display", 
-                        { entry: foundEntry, typeIcon: foundType.fontAweIcon, rating: rating, manRecList: manRecList});
-                  });
-                });
-                //find type to get icon
-                
-            });
-            //render show template with that entry
-
+    .populate("type.id")
+    .populate({
+      path:"manRecList",
+      options: { sort: { 'count':1 } },
+         populate: {
+          path: 'targetEntry_id',
+          model: 'Entry'
         }
-    });
+      })
+    .exec(function(err, foundEntry) {
+      if(!foundEntry){
+        req.flash("error", "Page does not exist.");
+        return res.redirect("/entries/search");
+      }
+     // console.log(foundEntry);
+      var rating = -1;
+      if(foundEntry.reviewList.length != 0){
+        var sum = 0;
+        for(let review of foundEntry.reviewList){
+          sum += review.rating;
+        }
+        rating = round((sum/foundEntry.reviewList.length),1);
+        //console.log(sum);
+      }
+        // if (err) {
+        //     console.log(err);
+        // } else {
+        //     //console.log(foundEntry)
+        //     //calculate average rating
+        //     Review.aggregate([{
+        //             "$match": {
+        //                 "entry_id": ObjectId(req.params.id)
+        //             },
+        //         },
+        //         {
+        //             $group: {
+        //                 _id: '$entry_id',
+        //                 ratingAvg: { $avg: '$rating' }
+        //             }
+        //         }
+        //     ]).exec(function(err, aggResult) {
+        //         var rating;
+
+        //         //set up rating if present
+        //         if (aggResult.length) {
+        //             rating = aggResult[0].ratingAvg.toFixed(1);;
+        //         }
+
+                 res.render("entries/display",
+                        { entry: foundEntry, rating: rating, recCommentList: foundEntry.recCommentList, manRecList: foundEntry.manRecList});
+      //       });
+      //   }
+     });
 });
 
 //INDEX - show all entries

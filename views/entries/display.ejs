@@ -10,8 +10,8 @@
       <div class="col-xl-9">
         <div class="row type-row ml-0" style="margin-bottom:2rem">
           <p class="type-badge"><span class="badge badge-warning" style="background-color: #D0CFCD; font-size:90%">
-           <%if(typeof typeIcon !== "undefined"){%> 
-              <i class="fas fa-<%=typeIcon%>"></i> 
+           <%if(typeof entry.type.id.fontAweIcon !== "undefined"){%> 
+              <i class="fas fa-<%=entry.type.id.fontAweIcon%>"></i> 
            <%}%>
           <%=capFirst(entry.type.name)%></span>
           </p>
@@ -23,7 +23,7 @@
           <div class="col-auto">
             <h2><span class="badge badge-info" style="background-color: #64ACC9;">
               <i class="fas fa-star fa-xs" style="bottom: 0.2rem; position: relative;"></i>
-              <%if (typeof rating === "undefined"){%>
+              <%if (rating < 0){%>
                 -/5
               <%}else{%>
                 <%=rating%>/5
@@ -129,10 +129,10 @@
         <div class="container recommedations-entries mt-2">
           <div class="row">
 		  	<ul class="list-group rec-item mt-2">
-          <%entry.recCommentList.forEach(function(recComment){%>
+          <%recCommentList.forEach(function(recComment){%>
             <li class="list-group-item">  <strong><%=recComment.author.username%>
               
-            </strong> recommends <a href="<%=recComment.manRec.target_id%>"><strong><em><%=recComment.manRec.targetName%></em></strong></a></li>
+            </strong> recommends <a href="<%=recComment.target.id%>"><strong><em><%=recComment.target.name%></em></strong></a></li>
           <%})%>
 
 				<!-- <li class="list-group-item"> <a href=""> <strong>nuttysalmon</strong> recommends <strong><em>Back to the Future III</em></strong></a></li>
