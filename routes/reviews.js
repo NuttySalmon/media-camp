@@ -4,6 +4,10 @@ var Entry = require("../models/entry");
 var Review = require("../models/review");
 var middleware = require("../middleware");
 
+router.get("/", middleware.isLoggedIn, function(req, res) {
+    res.redirect("/entry/" + req.params.id);
+});
+
 //reviews New
 router.get("/new", middleware.isLoggedIn, function(req, res) {
     // find entry by id
@@ -25,15 +29,15 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             console.log(review);
             if (err) {
                 console.log(err);
-                res.redirect("/entries/search");
+                res.redirect("/search");
             } else if (review.length !== 0) {
                 req.flash("error", "Cannot post review because You have already reviewed this.");
-                return res.redirect("/entries/display/" + req.params.id);
+                return res.redirect("/entry/" + req.params.id);
             } else {
                 Entry.findById(req.params.id, function(err, entry) {
                     if (err) {
                         console.log(err);
-                        return res.redirect("/entries/search");
+                        return res.redirect("/search");
                     } else {
                         var newReview = {
                             rating: req.body.rating,
@@ -55,7 +59,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
                                 entry.save();
                                 console.log(review);
                                 req.flash('success', 'Created a review!');
-                                return res.redirect('/entries/display/' + entry._id);
+                                return res.redirect('/entry/' + entry._id);
                             }
                         });
                     }
@@ -83,7 +87,7 @@ router.get("/:reviewId/edit", middleware.isLoggedIn, function(req, res) {
 //           console.log(err);
 //            res.render("edit");
 //        } else {
-//            res.redirect("/entries/" + req.params.id);
+//            res.redirect("/entry/" + req.params.id);
 //        }
 //    }); 
 // });
@@ -102,7 +106,7 @@ router.get("/:reviewId/edit", middleware.isLoggedIn, function(req, res) {
 //                 console.log(err)
 //               } else {
 //                 req.flash('error', 'Review deleted!');
-//                 res.redirect("/entries/" + req.params.id);
+//                 res.redirect("/entry/" + req.params.id);
 //               }
 //             });
 //         }

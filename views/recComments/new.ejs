@@ -3,7 +3,7 @@
         <link href="/stylesheets/form.css" rel="stylesheet">
         <div class="container mt-2" id="frame">
             <div class="col-lg-12">
-                <form class="form-new-entry" method="post" action="/entries/<%= entry._id %>/recommendations" onsubmit="return validateForm()" novalidate>
+                <form class="form-new-entry" method="post" action="/entry/<%= entry._id %>/recommendations" onsubmit="return validateForm()" novalidate>
                     <div class="text-center mb-4">
                         <h1 class="h3 mb-3 font-weight-normal">I would like to recommend </h1>
                     </div>
@@ -18,7 +18,7 @@
  -->
                     </div>
                     <div class="row" style="color: grey; max-width:20rem">
-                        <p class="small">eg: …/entries/
+                        <p class="small">eg: …/entry/
                          <span style="text-decoration: underline; text-decoration-color: red;">5af12da53f0867d0287515c6</span>
                          </p>   
                         </div>

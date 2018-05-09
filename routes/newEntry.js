@@ -137,7 +137,7 @@ router.post("/submit", middleware.isLoggedIn, function(req, res) {
         });
 
 
-        res.redirect("/entries/search");
+        res.redirect("/search");
     });
 });
 

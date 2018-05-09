@@ -2,7 +2,7 @@
     <div class="row">
         <h1 style="text-align: center">Edit <%= entry.name %></h1>
         <div style="width: 30%; margin: 25px auto;">
-            <form action="/entries/<%=entry._id%>?_method=PUT" method="POST">
+            <form action="/entry/<%=entry._id%>?_method=PUT" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input class="form-control" type="text" name="name" id="name" value="<%= entry.name %>">
@@ -19,7 +19,7 @@
                     <button class="btn btn-lg btn-primary btn-block">Update!</button>
                 </div>
             </form>
-            <a href="/entries">Go Back</a>
+            <a href="/entry">Go Back</a>
         </div>
     </div>
 <% include ../partials/footer %>

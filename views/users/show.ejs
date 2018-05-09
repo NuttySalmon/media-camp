@@ -15,7 +15,7 @@
 		<h3><%= user.username %>'s entries:</h3>
 		<ul>
 		<% entries.forEach(function(entry) { %>
-			<li><a href="/entries/<%= entry.id %>"><%= entry.name %></a></li>
+			<li><a href="/entry/<%= entry.id %>"><%= entry.name %></a></li>
 		<% }); %>
 		</ul>
 	</div>

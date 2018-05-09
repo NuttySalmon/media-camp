@@ -8,8 +8,12 @@ var ObjectID = require("mongodb").ObjectID;
 
 //reviews New
 // router.get("/", function(req,res){
-//   res.redirect("/entries/search");
+//   res.redirect("/search");
 // });
+
+router.get("/", middleware.isLoggedIn, function(req, res) {
+    res.redirect("/entry/" + req.params.id);
+});
 
 router.get("/new", middleware.isLoggedIn, function(req, res) {
 
@@ -21,7 +25,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
             res.render("recComments/new", { entry: entry });
         }
     })
-    // res.redirect("/entries/search");
+    // res.redirect("/search");
 });
 
 pushToRManRec = function(manRec, recComment, callback) {
@@ -71,13 +75,13 @@ linkRecComment = function(manRec, recComment, entry, targetID, callback) {
 router.post("/", middleware.isLoggedIn, function(req, res) {
     if(req.params.id == req.body.target_id){
       req.flash('error', 'You cannot recommend the entry to itself.')
-      return res.redirect("/entries/" + req.params.id+"/recommendations/new/");  
+      return res.redirect("/entry/" + req.params.id+"/recommendations/new/");  
     }
 
     if(!(req.params.id instanceof ObjectID))
     {
          req.flash("error", "Invalid recommendation.")
-          return res.redirect("/entries/" + req.params.id+"/recommendations/new/")
+          return res.redirect("/entry/" + req.params.id+"/recommendations/new/")
     }
     //lookup entry using ID
     Entry.findById(req.params.id)
@@ -92,7 +96,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         .exec(function(err, entry) {
             if (err) {
                 console.log(err);
-                return res.redirect("/entries/search");
+                return res.redirect("/search");
             }
 
             //varify no existing recommendation
@@ -105,21 +109,21 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             console.log(count);
             if(count !==0){
               req.flash("error", "Unable to add recommendation. You have already.recommended this ")
-              return res.redirect("/entries/display/" + req.params.id)
+              return res.redirect("/entry/" + req.params.id)
             }
             //varify target
             Entry.findById(req.body.target_id, function(err, target) {
                 if (err) {
                     console.log(err);
                     req.flash("Sorry, an error occurred.");
-                    return res.redirect("/entries/search");
+                    return res.redirect("/search");
                 }
 
                 return console.log(target);
                 if (typeof target === "undefined") {
                     console.log(err);
                     req.flash("Sorry, an error occurred.");
-                    return res.redirect("/entries/search");
+                    return res.redirect("/search");
                 }
 
                 var newRecComment = {
@@ -143,7 +147,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
                         } else {
                             req.flash('success', 'Created a recommendation!')
                         };
-                        return res.redirect('/entries/display/' + entry._id);
+                        return res.redirect('/entry/' + entry._id);
                     })
                 });
             });

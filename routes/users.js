@@ -34,7 +34,7 @@ router.post("/register", function(req, res){
         }
         passport.authenticate("local")(req, res, function(){
            req.flash("success", "Successfully Signed Up! Nice to meet you " + req.body.username);
-           res.redirect("/entries/search"); 
+           res.redirect("/search"); 
         });
     });
 });
@@ -56,7 +56,7 @@ router.post("/login",
 
   passport.authenticate("local", 
     {
-        successRedirect: "/entries/search",
+        successRedirect: "/search",
         failureRedirect: "/users/login",
         failureFlash: true,
         successFlash: 'Welcome to Mediaddict!'
@@ -70,7 +70,7 @@ router.get("/logout", function(req, res){
    req.session.destroy();  
 
    //var successM= {message:"Successfully logged out."};
-    res.redirect("/entries/search");
+    res.redirect("/search");
 });
 
 // USER PROFILE

@@ -22,12 +22,13 @@ var express         = require("express"),
 
 //requiring routes
 var commentRoutes   = require("./routes/comments"),
-    entryRoutes     = require("./routes/entries"),
+    entryRoutes     = require("./routes/entry"),
     indexRoutes     = require("./routes/index"),
     userRoutes      = require("./routes/users"),
     newEntryRoutes  = require("./routes/newEntry"),
     reviewRoutes    = require("./routes/reviews"),
     recRoutes       = require("./routes/recComments"),
+    searchRoutes    = require("./routes/search"),
     config          = require("./config");
 
 
@@ -77,12 +78,13 @@ app.use(function(req, res, next){
 
 //url routing
 app.use("/", indexRoutes);
-app.use("/entries", entryRoutes);
+app.use("/entry", entryRoutes);
 app.use("/users", userRoutes);
 app.use("/new-entry", newEntryRoutes);
-//app.use("/entries/:id/comments", commentRoutes);
-app.use("/entries/:id/reviews", reviewRoutes);
-app.use("/entries/:id/recommendations", recRoutes);
+//app.use("/entry/:id/comments", commentRoutes);
+app.use("/entry/:id/reviews", reviewRoutes);
+app.use("/entry/:id/recommendations", recRoutes);
+app.use("/search", searchRoutes);
 
 //port
 app.set('port', (process.env.PORT || 3000));

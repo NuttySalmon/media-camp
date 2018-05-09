@@ -25,11 +25,11 @@ function escapeRegex(text) {
 
 //
 router.get("/", function(req, res) {
-    res.redirect("/entries/search");
+    res.redirect("/search");
 });
 
 //display page
-router.get("/display/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   Entry.findById(req.params.id)
     .populate("detailList")
     .populate({
@@ -52,7 +52,7 @@ router.get("/display/:id", function(req, res) {
     .exec(function(err, foundEntry) {
       if(!foundEntry){
         req.flash("error", "Page does not exist.");
-        return res.redirect("/entries/search");
+        return res.redirect("/search");
       }
      // console.log(foundEntry);
       var rating = -1;
@@ -95,33 +95,33 @@ router.get("/display/:id", function(req, res) {
      });
 });
 
-//INDEX - show all entries
-router.get("/search", function(req, res) {
-    if (req.query.search && req.xhr) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        // Get all entries from DB
-        Entry.find({ name: regex }, function(err, allEntries) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.status(200).json(allEntries);
-            }
-        });
-    } else {
-        // Get all entries from DB
-        Entry.find({}, function(err, allEntries) {
-            if (err) {
-                console.log(err);
-            } else {
-                if (req.xhr) {
-                    res.json(allEntries);
-                } else {
-                    res.render("entries/index", { entries: allEntries, page: 'entries' });
-                }
-            }
-        });
-    }
-});
+// //INDEX - show all entries
+// router.get("/search", function(req, res) {
+//     if (req.query.search && req.xhr) {
+//         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+//         // Get all entries from DB
+//         Entry.find({ name: regex }, function(err, allEntries) {
+//             if (err) {
+//                 console.log(err);
+//             } else {
+//                 res.status(200).json(allEntries);
+//             }
+//         });
+//     } else {
+//         // Get all entries from DB
+//         Entry.find({}, function(err, allEntries) {
+//             if (err) {
+//                 console.log(err);
+//             } else {
+//                 if (req.xhr) {
+//                     res.json(allEntries);
+//                 } else {
+//                     res.render("entries/index", { entries: allEntries, page: 'entries' });
+//                 }
+//             }
+//         });
+//     }
+// });
 
 // //CREATE - add new entry to DB
 // router.post("/search", middleware.isLoggedIn, function(req, res) {
@@ -147,7 +147,7 @@ router.get("/search", function(req, res) {
 //         } else {
 //             //redirect back to entries page
 //             console.log(newlyCreated);
-//             res.redirect("/entries/search");
+//             res.redirect("/search");
 //         }
 
 //     });
@@ -199,7 +199,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 //             res.redirect("back");
 //         } else {
 //             req.flash("success", "Successfully Updated!");
-//             res.redirect("/entries/" + entry._id);
+//             res.redirect("/entry/" + entry._id);
 //         }
 //     });
 // });
@@ -212,7 +212,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 //             }
 //         }, function(err, comments) {
 //             req.flash('error', entry.name + ' deleted!');
-//             res.redirect('/entries/search');
+//             res.redirect('/search');
 //         })
 //     });
 // });

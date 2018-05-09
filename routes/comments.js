@@ -23,7 +23,7 @@ router.post("/",middleware.isLoggedIn,function(req, res){
    Entry.findById(req.params.id, function(err, entry){
        if(err){
            console.log(err);
-           res.redirect("/entries");
+           res.redirect("/entry");
        } else {
         Comment.create(req.body.comment, function(err, comment){
            if(err){
@@ -38,7 +38,7 @@ router.post("/",middleware.isLoggedIn,function(req, res){
                entry.save();
                console.log(comment);
                req.flash('success', 'Created a comment!');
-               res.redirect('/entries/' + entry._id);
+               res.redirect('/entry/' + entry._id);
            }
         });
        }
@@ -62,7 +62,7 @@ router.put("/:commentId", function(req, res){
           console.log(err);
            res.render("edit");
        } else {
-           res.redirect("/entries/" + req.params.id);
+           res.redirect("/entry/" + req.params.id);
        }
    }); 
 });
@@ -81,7 +81,7 @@ router.delete("/:commentId",middleware.checkUserComment, function(req, res){
                 console.log(err)
               } else {
                 req.flash('error', 'Comment deleted!');
-                res.redirect("/entries/" + req.params.id);
+                res.redirect("/entry/" + req.params.id);
               }
             });
         }

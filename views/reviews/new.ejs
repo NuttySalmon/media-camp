@@ -3,7 +3,7 @@
         <link href="/stylesheets/form.css" rel="stylesheet">
         <div class="container mt-2" id="frame">
             <div class="col-lg-12">
-                <form class="form-new-entry" method="post" action="/entries/<%= entry._id %>/reviews" onsubmit="return validateForm()" novalidate>
+                <form class="form-new-entry" method="post" action="/entry/<%= entry._id %>/reviews" onsubmit="return validateForm()" novalidate>
                     <div class="text-center mb-4">
                         <h1 class="h3 mb-3 font-weight-normal">Review <%=entry.name%> </h1>
                     </div>

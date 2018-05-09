@@ -3,7 +3,7 @@ var router  = express.Router();
 
 //root route
 router.get("/", function(req, res){
-    res.redirect("/entries/search");
+    res.redirect("/search");
 });
 
 router.get('/register', function(req, res) {

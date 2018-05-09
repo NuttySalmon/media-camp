@@ -18,7 +18,7 @@ module.exports = {
                } else {
                    req.flash("error", "You don't have permission to do that!");
                    console.log("BADD!!!");
-                   res.redirect("/entries/" + req.params.id);
+                   res.redirect("/entry/" + req.params.id);
                }
             });
         } else {
@@ -34,7 +34,7 @@ module.exports = {
                    next();
                } else {
                    req.flash("error", "You don't have permission to do that!");
-                   res.redirect("/entries/" + req.params.id);
+                   res.redirect("/entry/" + req.params.id);
                }
             });
         } else {
@@ -51,7 +51,7 @@ module.exports = {
                    next();
                } else {
                    req.flash("error", "You don't have permission to do that!");
-                   res.redirect("/entries/" + req.params.id);
+                   res.redirect("/entry/" + req.params.id);
                }
             });
         } else {

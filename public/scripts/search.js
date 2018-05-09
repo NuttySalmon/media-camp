@@ -3,7 +3,7 @@ $('#entry-search').on('input', function() {
   if(search === "search=") {
     search = "all"
   }
-  $.get('/entries/search?' + search, function(data) {
+  $.get('/search?' + search, function(data) {
     $('#entry-grid').html('');
     data.forEach(function(entry) {
       $('#entry-grid').append(`
@@ -14,7 +14,7 @@ $('#entry-search').on('input', function() {
               <h4>${ entry.name }</h4>
             </div>
             <p>
-              <a href="/entries/${ entry._id }" class="btn btn-primary">More Info</a>
+              <a href="/entry/${ entry._id }" class="btn btn-primary">More Info</a>
             </p>
           </div>
         </div>

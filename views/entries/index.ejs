@@ -4,10 +4,10 @@
             <h1> Welcome To Mediaddict!</h1>
             <p>View our hand-picked entries from all over the world</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="/entries/new">Add New Entry <i class="fas fa-file ml-1"></i></a>
+                <a class="btn btn-primary btn-lg" href="/entry/new">Add New Entry <i class="fas fa-file ml-1"></i></a>
             </p>
             <p>
-                <form action="/entries/search mt-2" method="GET" class="form-inline" id="entry-search">
+                <form action="/search mt-2" method="GET" class="form-inline" id="entry-search">
                     <div class="form-group" style="min-width:100%">
                         <input type="text" name="search" placeholder="Entry search..." class="form-control" style="min-width:100%">
                     </div>
@@ -21,13 +21,13 @@
                 <div class="col-md-2 col-sm-3">
                     <div class="thumbnail">
                         <% if (typeof entry.image !== 'undefined') { %>
-                            <a  href="/entries/display/<%= entry._id %>"> <img class="poster-showcase" src="<%= entry.image %>"> </a>
+                            <a  href="/entry/<%= entry._id %>"> <img class="poster-showcase" src="<%= entry.image %>"> </a>
                         <% } %>
                         <!-- <div class="caption">
                             <h4><%= entry.name %></h4>
                         </div> -->
                         <p>
-<!--                             <a href="/entries/<%= entry._id %>" class="btn btn-primary">More Info</a>
+<!--                             <a href="/entry/<%= entry._id %>" class="btn btn-primary">More Info</a>
                         </p> -->
                     </div>
                 </div>
