@@ -40,7 +40,7 @@ router.get("/:id", function(req, res) {
     .populate("type.id")
     .populate({
       path:"manRecList",
-      options: { sort: { 'count':1 } },
+      options: { sort: { 'count':-1 } },
          populate: {
           path: 'targetEntry_id',
           model: 'Entry'

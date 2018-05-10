@@ -25,7 +25,7 @@ var data = [
     {
         _id: ObjectId("5A0000000000000000000003"),
         name: "book", 
-        fieldList: ["genre","author", "no. of page", "ISBN", "edition"],
+        fieldList: ["genre","author", "no. of page", "ISBN", "edition", "publisher"],
         fontAweIcon: "book"  
     },
     {
