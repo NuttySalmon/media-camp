@@ -9,7 +9,6 @@ var express         = require("express"),
     Comment         = require("./models/comment"),
     User            = require("./models/user"),
     expressSession  = require("express-session"),
-    seedDB          = require("./seeds"),
     typeInit        = require("./typeInit"),
     methodOverride  = require("method-override"),
 
@@ -50,8 +49,6 @@ app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
 //require moment
 app.locals.moment = require('moment');
-
-//seedDB(); //seed the database
 
 //init all type objects
 typeInit();

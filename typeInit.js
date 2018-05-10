@@ -19,7 +19,7 @@ var data = [
     {
         _id: ObjectId("5A0000000000000000000002"),
         name: "show", 
-        fieldList: ["genre", "year", "no. of seasons", "writers", "no. of pages", "stars", "creators"],
+        fieldList: ["genre", "year", "no. of seasons", "writers", "stars", "creators"],
         fontAweIcon: "tv" 
     },
     {
