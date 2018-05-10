@@ -18,12 +18,9 @@ function round(number, precision) {
 }
 
 
-// Define escapeRegex function for search feature
-function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
 
-//
+
+
 router.get("/", function(req, res) {
     res.redirect("/search");
 });

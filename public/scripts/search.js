@@ -7,14 +7,12 @@ $('#entry-search').on('input', function() {
     $('#entry-grid').html('');
     data.forEach(function(entry) {
       $('#entry-grid').append(`
-        <div class="col-md-3 col-sm-6">
+       <div class="col-md-2 col-sm-3">
           <div class="thumbnail">
-            <img src="${ entry.image }">
-            <div class="caption">
-              <h4>${ entry.name }</h4>
+             <a  href="/entry/<%= entry._id %>"> <img src="${ entry.image }"></a>
+            <div class="caption">            
             </div>
             <p>
-              <a href="/entry/${ entry._id }" class="btn btn-primary">More Info</a>
             </p>
           </div>
         </div>

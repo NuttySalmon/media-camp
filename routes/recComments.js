@@ -4,7 +4,7 @@ var Entry = require("../models/entry");
 var RecComment = require("../models/recComment");
 var middleware = require("../middleware");
 var ManRec = require("../models/manRec");
-var ObjectID = require("mongodb").ObjectID;
+var ObjectId = require("mongodb").ObjectID;
 
 //reviews New
 // router.get("/", function(req,res){
@@ -16,12 +16,22 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
 });
 
 router.get("/new", middleware.isLoggedIn, function(req, res) {
+    
+    if(!ObjectId.isValid(req.params.id)){
+        return res.redirect("/search");
+    }
+    var testId = new ObjectId(req.params.id);
 
+    if(testId != req.params.id){
+        return res.redirect("/search");
+    };
+        
    // console.log(req.params.id);
     Entry.findById(req.params.id, function(err, entry) {
         if (err) {
             console.log(err);
         } else {
+
             res.render("recComments/new", { entry: entry });
         }
     })
@@ -78,11 +88,23 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
       return res.redirect("/entry/" + req.params.id+"/recommendations/new/");  
     }
 
-    if(!(req.params.id instanceof ObjectID))
-    {
-         req.flash("error", "Invalid recommendation.")
-          return res.redirect("/entry/" + req.params.id+"/recommendations/new/")
+
+    if(!ObjectId.isValid(req.body.target_id)){
+      req.flash('error', 'Invalid recommendation')
+      return res.redirect("/entry/" + req.params.id+"/recommendations/new/");  
     }
+    var testId = new ObjectId(req.body.target_id);
+
+    if(testId != req.body.target_id){
+      req.flash('error', 'Invalid recommendation')
+      return res.redirect("/entry/" + req.params.id+"/recommendations/new/");  
+    };
+
+    // if(!(new ObjerctId req.params.id instanceof ObjectID))
+    // {
+    //      req.flash("error", "Invalid recommendation.")
+    //       return res.redirect("/entry/" + req.params.id+"/recommendations/new/")
+    // }
     //lookup entry using ID
     Entry.findById(req.params.id)
         .populate({
@@ -91,7 +113,10 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         })
         .populate({
             path: "recCommentList",
-            match: { "target.id": req.body.target_id}
+            match: { 
+                "target.id": req.body.target_id, 
+                "author.id": req.user._id
+            }
         })
         .exec(function(err, entry) {
             if (err) {
@@ -100,14 +125,14 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             }
 
             //varify no existing recommendation
-            var count = 0;
-            for(var i = 0; i < entry.recCommentList.length && count ===0; i++ ){
-              if(entry.recCommentList[i].author.id.toString() == req.user._id){
-                count++;
-              }
-            }
-            console.log(count);
-            if(count !==0){
+           // var count = 0;
+            // for(var i = 0; i < entry.recCommentList.length && count ===0; i++ ){
+            //   if(entry.recCommentList[i].author.id.toString() == req.user._id){
+            //     count++;
+            //   }
+            // }
+            console.log(entry.recCommentList.length);
+            if(entry.recCommentList.length !==0){
               req.flash("error", "Unable to add recommendation. You have already.recommended this ")
               return res.redirect("/entry/" + req.params.id)
             }
@@ -119,7 +144,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
                     return res.redirect("/search");
                 }
 
-                return console.log(target);
+                //return console.log(target);
                 if (typeof target === "undefined") {
                     console.log(err);
                     req.flash("Sorry, an error occurred.");
@@ -134,10 +159,13 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
                     "author.username": req.user.username,
 
                 };
-                console.log(entry);
+                //console.log(entry);
                 RecComment.create(newRecComment, function(err, recComment) {
                     if (err) {
                         return console.log(err);
+                        req.flash("Sorry, an error occurred.");
+                        return res.redirect("/entry/" + req.params.id);
+
                     }
 
 
