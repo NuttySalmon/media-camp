@@ -23,7 +23,7 @@ $('#e1').select2({
         },
         cache: true
     },
-    placeholder: 'Search for an entry to recommend',
+    placeholder: 'Search for an entry',
     escapeMarkup: function(markup) { return markup; },
    // id: function (item) { return item._id },
    // text:function(item) {return item.name},

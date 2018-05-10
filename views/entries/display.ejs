@@ -54,16 +54,36 @@
     <div class="row">
       <ul class="nav nav-tabs" id="recTab" role="tablist">
         <li class="nav-item"> <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="movies-tab" data-toggle="tab" href="#movies" role="tab" aria-controls="movies" aria-selected="false">Movies</a> </li>
+        
+        <%for(let type of typeList){%>
+        
+          <li class="nav-item"> 
+            <a class="nav-link" id="<%=type.name%>-tab" data-toggle="tab" href="#<%= type.name === "music album"? "music":type.name %>" role="tab" aria-controls="<%=type.name%>" 
+            aria-selected="false">
+              <%=capFirst(type.name)+"s" %>
+              
+            </a> 
+          </li>
+        <%}%>
+       <!--  
+       <li class="nav-item"> 
+       <a class="nav-link" id="movies-tab" data-toggle="tab" href="#movies" role="tab" aria-controls="movies" aria-selected="false">
+         Movies
+         </a> 
+       </li>
         <li class="nav-item"> <a class="nav-link" id="shows-tab" data-toggle="tab" href="#shows" role="tab" aria-controls="shows" aria-selected="false">Shows</a> </li>
         <li class="nav-item"> <a class="nav-link" id="books-tab" data-toggle="tab" href="#books" role="tab" aria-controls="books" aria-selected="false">Books</a> </li>
-        <li class="nav-item"> <a class="nav-link" id="games-tab" data-toggle="tab" href="#games" role="tab" aria-controls="games" aria-selected="false">Games</a> </li>
+        <li class="nav-item"> <a class="nav-link" id="games-tab" data-toggle="tab" href="#games" role="tab" aria-controls="games" aria-selected="false">Games</a> </li> -->
       </ul>
     </div>
     <div class="row display-tabs pt-3">
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
           <ul class="suggestion-grid pb-3" id="custom-scrollbar">
+            <%if (manRecList.length === 0) {%>
+              <div><p style="text-align: center;"> No entries. </p></div>
+
+            <%} else {%>
             <%for (var i=0; i<20; i++){%>
             <%if (typeof manRecList[i] !== "undefined"){%>
             <li class="col-sm-2 suggestion-grid-item"> 
@@ -71,19 +91,37 @@
                 <img class="img-fluid suggestion-grid-poster" src="<%=manRecList[i].targetEntry_id.image%>">
               </a> 
             </li>
-            <%}}%>
-           <!--  <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"></a> </li>
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZmM4YTE5ZjYtODY3YS00OTE1LTgyNzQtNmNmOTNmNDEzYTI1XkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,665,1000_AL_.jpg"></a> </li>
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1327942880l/2493.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjM2MDgxMDg0Nl5BMl5BanBnXkFtZTgwNTM2OTM5NDE@._V1_.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BYjhlMGYxNmMtOWFmMi00Y2M2LWE5NWYtZTdlMDRlMGEzMDA3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,676,1000_AL_.jpg"></a> </li>
-            <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1402600310l/10964.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://images.gr-assets.com/books/1437728815l/14050.jpg"> </a></li>
-            <li class="col-sm-2 suggestion-grid-item"><a href=""> <img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjA0ODEzMTc1Nl5BMl5BanBnXkFtZTcwODM2MjAxNA@@._V1_SY1000_CR0,0,664,1000_AL_.jpg"></a> </li> -->
+            <%}}}%>
+           
           </ul>
         </div>
-        <div class="tab-pane fade" id="movies" role="tabpanel" aria-labelledby="movies-tab">
+        
+       <!--  <div class="tab-pane fade" id="movies" role="tabpanel" aria-labelledby="movies-tab">
+          <ul class="suggestion-grid pb-3" id="custom-scrollbar">
+            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"></a> </li>
+            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,665,1000_AL_.jpg"></a> </li>
+            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjM2MDgxMDg0Nl5BMl5BanBnXkFtZTgwNTM2OTM5NDE@._V1_.jpg"> </a></li>
+            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BYjhlMGYxNmMtOWFmMi00Y2M2LWE5NWYtZTdlMDRlMGEzMDA3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SY1000_CR0,0,676,1000_AL_.jpg"> </a></li>
+            <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BMjA0ODEzMTc1Nl5BMl5BanBnXkFtZTcwODM2MjAxNA@@._V1_SY1000_CR0,0,664,1000_AL_.jpg"> </a></li>
+          </ul>
+        </div> -->
+
+
+        
+        <% for(let type of typeList){%>
+
+        <div class="tab-pane fade" id="<%= type.name === "music album"? "music":type.name %>" role="tabpanel" aria-labelledby="<%=type.name%>-tab">
+          <ul class="suggestion-grid pb-3" id="custom-scrollbar">
+            <%var count=0; for (var i=0; i< manRecList.length && count <= 20; i++){%>
+            <%if(type.name == manRecList[i].targetEntry_id.type.name){%>
+            <li class="col-sm-2 suggestion-grid-item"> <a href="manRecList[i].targetEntry_id._id"><img class="img-fluid suggestion-grid-poster" 
+              src="<%=manRecList[i].targetEntry_id.image%>"></a> </li>
+              <%count++; }%>
+            <%}%>
+          </ul>
+        </div>
+        <%}%>
+<!--         <div class="tab-pane fade" id="movies" role="tabpanel" aria-labelledby="movies-tab">
           <ul class="suggestion-grid pb-3" id="custom-scrollbar">
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BZTMxMGM5MjItNDJhNy00MWI2LWJlZWMtOWFhMjI5ZTQwMWM3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"></a> </li>
             <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://ia.media-imdb.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,665,1000_AL_.jpg"></a> </li>
@@ -105,10 +143,10 @@
           </ul>
         </div>
         <div class="tab-pane fade" id="games" role="tabpanel" aria-labelledby="games-tab">
-			<ul class="suggestion-grid pb-3" id="custom-scrollbar">
+		       <ul class="suggestion-grid pb-3" id="custom-scrollbar">
          	 <li class="col-sm-2 suggestion-grid-item"> <a href=""><img class="img-fluid suggestion-grid-poster" src="https://upload.wikimedia.org/wikipedia/en/7/73/Back_to_the_Future_The_Game.PNG"> </a></li>
-			  </ul>
-        </div>
+			     </ul>
+        </div> -->
       </div>
     </div>
     <div class="row mt-5">

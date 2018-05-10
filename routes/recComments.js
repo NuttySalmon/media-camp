@@ -133,8 +133,8 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             // }
             console.log(entry.recCommentList.length);
             if(entry.recCommentList.length !==0){
-              req.flash("error", "Unable to add recommendation. You have already.recommended this ")
-              return res.redirect("/entry/" + req.params.id)
+              req.flash("error", "You have already recommended this before to the same entry.")
+              return res.redirect("/entry/" + req.params.id+"/recommendations/new/")
             }
             //varify target
             Entry.findById(req.body.target_id, function(err, target) {

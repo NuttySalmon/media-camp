@@ -10,11 +10,11 @@ var Review = require("../models/review");
 var manRec = require("../models/manRec");
 
 function round(number, precision) {
-  var shift = function (number, precision) {
-    var numArray = ("" + number).split("e");
-    return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
-  };
-  return shift(Math.round(shift(number, +precision)), -precision);
+    var shift = function(number, precision) {
+        var numArray = ("" + number).split("e");
+        return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+    };
+    return shift(Math.round(shift(number, +precision)), -precision);
 }
 
 
@@ -27,69 +27,69 @@ router.get("/", function(req, res) {
 
 //display page
 router.get("/:id", function(req, res) {
-  Entry.findById(req.params.id)
-    .populate("detailList")
-    .populate({
-      path: "reviewList",
-      options: { sort: { 'createdAt': -1 } }
-    })
-    .populate({
-      path: "recCommentList",
-      options: { sort: { 'createdAt': -1 } }
-    })
-    .populate("type.id")
-    .populate({
-      path:"manRecList",
-      options: { sort: { 'count':-1 } },
-         populate: {
-          path: 'targetEntry_id',
-          model: 'Entry'
-        }
-      })
-    .exec(function(err, foundEntry) {
-      if(!foundEntry){
-        req.flash("error", "Page does not exist.");
-        return res.redirect("/search");
-      }
-     // console.log(foundEntry);
-      var rating = -1;
-      if(foundEntry.reviewList.length != 0){
-        var sum = 0;
-        for(let review of foundEntry.reviewList){
-          sum += review.rating;
-        }
-        rating = round((sum/foundEntry.reviewList.length),1);
-        //console.log(sum);
-      }
-        // if (err) {
-        //     console.log(err);
-        // } else {
-        //     //console.log(foundEntry)
-        //     //calculate average rating
-        //     Review.aggregate([{
-        //             "$match": {
-        //                 "entry_id": ObjectId(req.params.id)
-        //             },
-        //         },
-        //         {
-        //             $group: {
-        //                 _id: '$entry_id',
-        //                 ratingAvg: { $avg: '$rating' }
-        //             }
-        //         }
-        //     ]).exec(function(err, aggResult) {
-        //         var rating;
+    Entry.findById(req.params.id)
+        .populate("detailList")
+        .populate({
+            path: "reviewList",
+            options: { sort: { 'createdAt': -1 } }
+        })
+        .populate({
+            path: "recCommentList",
+            options: { sort: { 'createdAt': -1 } }
+        })
+        .populate("type.id")
+        .populate({
+            path: "manRecList",
+            options: { sort: { 'count': -1 } },
+            populate: {
+                path: 'targetEntry_id',
+                model: 'Entry'
+            }
+        })
+        .exec(function(err, foundEntry) {
+            if (!foundEntry) {
+                req.flash("error", "Page does not exist.");
+                return res.redirect("/search");
+            }
+            // console.log(foundEntry);
+            var rating = -1;
+            if (foundEntry.reviewList.length != 0) {
+                var sum = 0;
+                for (let review of foundEntry.reviewList) {
+                    sum += review.rating;
+                }
+                rating = round((sum / foundEntry.reviewList.length), 1);
+                //console.log(sum);
+            }
+            // if (err) {
+            //     console.log(err);
+            // } else {
+            //     //console.log(foundEntry)
+            //     //calculate average rating
+            //     Review.aggregate([{
+            //             "$match": {
+            //                 "entry_id": ObjectId(req.params.id)
+            //             },
+            //         },
+            //         {
+            //             $group: {
+            //                 _id: '$entry_id',
+            //                 ratingAvg: { $avg: '$rating' }
+            //             }
+            //         }
+            //     ]).exec(function(err, aggResult) {
+            //         var rating;
 
-        //         //set up rating if present
-        //         if (aggResult.length) {
-        //             rating = aggResult[0].ratingAvg.toFixed(1);;
-        //         }
-
-                 res.render("entries/display",
-                        { entry: foundEntry, rating: rating, recCommentList: foundEntry.recCommentList, manRecList: foundEntry.manRecList});
-      //       });
-      //   }
-     });
+            //         //set up rating if present
+            //         if (aggResult.length) {
+            //             rating = aggResult[0].ratingAvg.toFixed(1);;
+            //         }
+            Type.find({}).exec(function(err, typeList){
+              console.log(typeList);
+            res.render("entries/display", { entry: foundEntry, rating: rating, recCommentList: foundEntry.recCommentList, manRecList: foundEntry.manRecList, typeList:typeList });
+            //       });
+            });
+        });
 });
 
 // //INDEX - show all entries
