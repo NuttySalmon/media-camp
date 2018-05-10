@@ -7,3 +7,12 @@
 To store to local DB:
 <br />
 go to `config.js` & change the Uri
+<br />
+To run the app locally, open up Terminal:
+<br />
+```
+npm install
+node app
+```
+<br />
+http://localhost:3000/
